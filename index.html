@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Build Marketing | JB 营销团队</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== RESET & BASE ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080c14;
+  --surface:#0e1520;
+  --surface2:#111827;
+  --border:#1e2d45;
+  --accent:#2563eb;
+  --accent2:#3b82f6;
+  --gold:#FACC15;
+  --navy:#0b1731;
+  --text:#e8edf5;
+  --text-muted:#6b7fa3;
+  --text-dim:#3d5070;
+  --radius:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* Grid bg */
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(37,99,235,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:0}
+
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,12,20,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(30,45,69,0.5)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;color:var(--text);text-decoration:none;letter-spacing:-0.02em}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:500;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{background:var(--accent);color:#fff;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;text-decoration:none;transition:all 0.2s}
+.nav-cta:hover{background:#1d4ed8;transform:translateY(-1px)}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+
+/* ===== SECTIONS ===== */
+section{position:relative;z-index:1}
+.section-label{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px}
+.section-title{font-family:'DM Sans',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.12;letter-spacing:-0.025em;margin-bottom:16px}
+.section-sub{font-size:14px;color:var(--text-muted);max-width:520px;line-height:1.7}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0}
+
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px}
+.hero-inner{max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.3);border-radius:100px;padding:6px 18px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--accent2);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:32px}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 8px var(--accent2);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+#hero h1{font-family:'DM Sans',sans-serif;font-size:clamp(36px,6vw,72px);font-weight:800;line-height:1.08;letter-spacing:-0.03em;margin-bottom:24px}
+#hero h1 .line2{display:block;background:linear-gradient(135deg,var(--accent2),#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+#hero p{font-size:clamp(14px,1.8vw,16px);color:var(--text-muted);max-width:560px;margin:0 auto 40px;line-height:1.75}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#1d4ed8);color:#fff;padding:14px 28px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;text-decoration:none;transition:all 0.2s;box-shadow:0 4px 20px rgba(37,99,235,0.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,0.45)}
+.btn-ghost{background:transparent;color:var(--text-muted);padding:14px 28px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;text-decoration:none;border:1px solid var(--border);transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--accent2);color:var(--accent2)}
+.hero-stats{display:flex;gap:48px;justify-content:center;margin-top:64px;padding-top:40px;border-top:1px solid var(--border)}
+.stat-num{font-family:'DM Sans',sans-serif;font-size:36px;font-weight:800;color:var(--text);line-height:1}
+.stat-label{font-size:12px;color:var(--text-dim);margin-top:4px}
+
+/* ===== ABOUT ===== */
+#about{padding:100px 24px}
+.about-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:32px}
+.tag{background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);border-radius:100px;padding:5px 14px;font-size:12px;color:var(--accent2);font-weight:500}
+.iceberg-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;position:relative;overflow:hidden}
+.iceberg-card::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(37,99,235,0.12),transparent 70%);pointer-events:none}
+.ice-layer{padding:16px 0;border-bottom:1px solid var(--border)}
+.ice-layer:last-child{border-bottom:none}
+.ice-label{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.ice-content{font-size:13px;color:var(--text-muted);line-height:1.6}
+.ice-brand{text-align:center;padding:20px 0;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:800;color:var(--text);letter-spacing:0.08em}
+.ice-brand span{display:block;font-size:10px;font-weight:400;color:var(--text-dim);letter-spacing:0.12em;margin-top:2px}
+
+/* ===== SERVICES ===== */
+#services{padding:100px 24px;background:var(--surface)}
+.services-inner{max-width:1100px;margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:48px}
+.service-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:border-color 0.3s,transform 0.2s}
+.service-card:hover{border-color:rgba(37,99,235,0.4);transform:translateY(-3px)}
+.service-num{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;color:var(--accent2);letter-spacing:0.1em;margin-bottom:14px}
+.service-card h3{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.service-card p{font-size:13px;color:var(--text-muted);line-height:1.7}
+
+/* ===== CLIENT LOGO STRIP ===== */
+#clients{padding:56px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.clients-inner{max-width:1100px;margin:0 auto}
+.clients-label{text-align:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:28px}
+.logo-strip{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 12px}
+.logo-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;transition:all 0.2s}
+.logo-chip:hover{border-color:rgba(37,99,235,0.4);color:var(--text)}
+
+/* ===== PORTFOLIO ===== */
+#cases{padding:100px 24px}
+.portfolio-inner{max-width:1100px;margin:0 auto}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+
+/* Flip Card */
+.flip-card{perspective:1000px;height:340px;cursor:pointer}
+.flip-card-inner{position:relative;width:100%;height:100%;transition:transform 0.55s cubic-bezier(0.4,0.2,0.2,1);transform-style:preserve-3d}
+.flip-card.flipped .flip-card-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);overflow:hidden}
+
+/* Front */
+.flip-front{background:var(--surface);border:1px solid var(--border)}
+.card-img{width:100%;height:220px;object-fit:cover;display:block;background:#111827}
+.card-img-placeholder{width:100%;height:220px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0e1520,#141d2e);flex-direction:column;gap:8px}
+.card-img-placeholder span{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--text-dim);letter-spacing:0.1em}
+.card-img-placeholder small{font-size:10px;color:var(--text-dim);opacity:0.5}
+.card-front-info{padding:14px 16px}
+.card-tag{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:var(--accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
+.card-name{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--text)}
+.flip-hint{font-size:10px;color:var(--text-dim);margin-top:4px;display:flex;align-items:center;gap:4px}
+.flip-hint::before{content:'↕';font-size:10px}
+
+/* Back */
+.flip-back{transform:rotateY(180deg);background:linear-gradient(135deg,#0d1929,#111827);border:1px solid rgba(37,99,235,0.3);display:flex;flex-direction:column;justify-content:space-between;padding:24px}
+.back-tag{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;color:var(--accent2);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px}
+.back-name{font-family:'DM Sans',sans-serif;font-size:20px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:10px}
+.back-desc{font-size:12px;color:var(--text-muted);line-height:1.65;flex:1}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;padding:10px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;text-decoration:none;margin-top:16px;transition:all 0.2s;border:none;cursor:pointer;width:fit-content}
+.back-btn:hover{background:#1d4ed8;transform:translateY(-1px)}
+.back-btn svg{width:13px;height:13px}
+.back-close{font-size:11px;color:var(--text-dim);cursor:pointer;margin-top:8px;display:block;text-align:center;transition:color 0.2s}
+.back-close:hover{color:var(--text-muted)}
+
+/* ===== WHY ===== */
+#why{padding:100px 24px;background:var(--surface)}
+.why-inner{max-width:1100px;margin:0 auto}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.why-img-wrap{width:100%;height:160px;border-radius:8px;overflow:hidden;margin-bottom:16px;background:var(--surface2)}
+.why-img{width:100%;height:100%;object-fit:cover;display:block}
+.why-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,#0e1520,#141d2e);border-radius:8px}
+.why-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color 0.3s}
+.why-card:hover{border-color:rgba(37,99,235,0.35)}
+.why-card h4{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;margin-bottom:8px}
+.why-card p{font-size:12px;color:var(--text-muted);line-height:1.65}
+
+/* Team card with bg image */
+.team-card-img{position:relative;overflow:hidden;padding:0;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end}
+.team-card-bg{position:absolute;inset:0;z-index:0}
+.team-card-bg img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.35;transition:opacity 0.3s}
+.team-card-img:hover .team-card-bg img{opacity:0.45}
+.team-card-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,12,20,0.95) 0%,rgba(8,12,20,0.4) 60%,transparent 100%)}
+.team-card-content{position:relative;z-index:1;padding:20px}
+.team-card-img h4{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px;color:var(--text)}
+.team-card-img p{font-size:12px;color:var(--text-muted);line-height:1.65;margin-bottom:12px}
+
+/* ===== TEAM / SERVICES ===== */
+#team{padding:100px 24px}
+.team-inner{max-width:1100px;margin:0 auto}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:48px}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px;transition:border-color 0.3s,transform 0.2s}
+.team-card:hover{border-color:rgba(37,99,235,0.4);transform:translateY(-3px)}
+.team-card h4{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;margin-bottom:10px;color:var(--text)}
+.team-card p{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:16px}
+.team-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.team-tag{background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.15);border-radius:100px;padding:3px 10px;font-size:10px;color:var(--text-dim)}
+.svc-card{display:flex;flex-direction:column}
+.svc-icon{width:48px;height:48px;background:rgba(37,99,235,0.12);border:1px solid rgba(37,99,235,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--accent2);margin-bottom:18px;flex-shrink:0}
+
+/* ===== WORKFLOW ===== */
+#workflow{padding:100px 24px;background:var(--surface)}
+.workflow-inner{max-width:960px;margin:0 auto}
+.workflow-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;gap:0;margin-top:56px;position:relative;align-items:start}
+.wf-step{text-align:center;position:relative;z-index:1;padding:0 8px}
+.wf-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#1d4ed8);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:18px;font-weight:800;color:#fff;margin:0 auto 20px;box-shadow:0 0 20px rgba(37,99,235,0.35)}
+.wf-step h4{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;margin-bottom:12px;color:var(--text)}
+.wf-step p{font-size:13px;color:var(--text-muted);line-height:1.8;padding:0 4px}
+/* Arrow between steps */
+.wf-arrow{display:flex;align-items:flex-start;justify-content:center;padding-top:18px;color:var(--accent2);font-size:20px;opacity:0.5}
+
+/* ===== RESULTS ===== */
+#results{padding:100px 24px}
+.results-inner{max-width:1100px;margin:0 auto}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.result-num{font-family:'DM Sans',sans-serif;font-size:40px;font-weight:800;color:var(--accent2);line-height:1;margin-bottom:4px}
+.result-label{font-size:12px;color:var(--text-dim);margin-bottom:16px;font-weight:500}
+.result-quote{font-size:13px;color:var(--text-muted);line-height:1.7;font-style:italic;margin-bottom:16px}
+.result-author{font-size:12px;color:var(--text-dim);font-family:'DM Sans',sans-serif;font-weight:600}
+
+/* ===== CTA ===== */
+#cta{padding:120px 24px;text-align:center}
+.cta-inner{max-width:640px;margin:0 auto}
+.cta-inner h2{font-family:'DM Sans',sans-serif;font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1.12;letter-spacing:-0.025em;margin-bottom:20px}
+.cta-inner p{font-size:14px;color:var(--text-muted);margin-bottom:36px;line-height:1.7}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ===== FOOTER ===== */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:48px 24px}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+.footer-brand{font-family:'DM Sans',sans-serif;font-size:16px;font-weight:800;color:var(--text)}
+.footer-sub{font-size:12px;color:var(--text-dim);margin-top:4px}
+.footer-links{display:flex;gap:20px}
+.footer-links a{color:var(--text-muted);text-decoration:none;font-size:13px;transition:color 0.2s}
+.footer-links a:hover{color:var(--text)}
+
+/* ===== WA FLOAT ===== */
+.wa-float{position:fixed;bottom:28px;right:28px;width:52px;height:52px;background:#16a34a;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(22,163,74,0.4);z-index:200;text-decoration:none;transition:all 0.2s}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(22,163,74,0.5)}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+  .about-inner{grid-template-columns:1fr}
+  .portfolio-grid{grid-template-columns:repeat(2,1fr)}
+  .services-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .workflow-steps{grid-template-columns:1fr auto 1fr;row-gap:32px}
+  .workflow-steps .wf-arrow:nth-child(4){display:none}
+  .workflow-steps .wf-step:nth-child(5),.workflow-steps .wf-step:nth-child(7){grid-column:auto}
+  .results-grid{grid-template-columns:1fr}
+  .hero-stats{gap:28px}
+}
+@media(max-width:640px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .nav-toggle{display:block}
+  .nav-links.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--border);padding:16px 24px;gap:16px}
+  .portfolio-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr}
+  .hero-stats{flex-direction:column;gap:20px}
+  .footer-inner{flex-direction:column;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">DeepBuild</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about">关于</a></li>
+    <li><a href="#services">服务</a></li>
+    <li><a href="#cases">案例</a></li>
+    <li><a href="#team">团队</a></li>
+    <li><a href="https://api.whatsapp.com/send/?phone=60167814138" class="nav-cta" target="_blank">免费咨询</a></li>
+  </ul>
+  <button class="nav-toggle" onclick="document.getElementById('nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">Est 2026 · Johor Bahru</div>
+    <h1>看得见的增长，<span class="line2">来自看不见的系统。</span></h1>
+    <p>品牌的真正竞争力，往往藏在表面之下。Deep Build Marketing 专注于为本地品牌构建一套可持续、可复制的增长系统——从内容、广告到品牌策略。</p>
+    <div class="hero-btns">
+      <a href="https://api.whatsapp.com/send/?phone=60167814138" class="btn-primary" target="_blank">免费咨询 →</a>
+      <a href="#cases" class="btn-ghost">查看案例</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">300+</div><div class="stat-label">Social Media Designs</div></div>
+      <div><div class="stat-num">12+</div><div class="stat-label">Successful Brands</div></div>
+      <div><div class="stat-num">30+</div><div class="stat-label">Clients Served</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-label">About Deep Build</div>
+      <h2 class="section-title">我们不是传统<br>Marketing Agency。</h2>
+      <p class="section-sub">Deep Build Marketing 是一支来自 JB 的年轻营销团队。我们相信，品牌不能只是"好看"，而是必须<strong style="color:var(--text)">真正被看见、被记住，并带来结果</strong>。</p>
+      <p class="section-sub" style="margin-top:14px">我们不只打造表面的曝光，更为品牌构建可持续、可复制的增长系统——从品牌定位、内容结构、流量投放到转化路径，每一层都有体系支撑。</p>
+      <div class="about-tags">
+        <span class="tag">年轻</span><span class="tag">真实</span><span class="tag">懂内容</span><span class="tag">执行快</span>
+      </div>
+    </div>
+    <div class="iceberg-card">
+      <div class="ice-layer">
+        <div class="ice-label">表层 · Visible</div>
+        <div class="ice-content">内容发布 · 广告投放 · 社群曝光 · 流量增长</div>
+      </div>
+      <div class="ice-brand">DEEP BUILD<span>Marketing · Branding · Design</span></div>
+      <div class="ice-layer">
+        <div class="ice-label">水下 · System</div>
+        <div class="ice-content">品牌策略定位 · 内容结构与叙事逻辑<br>投放机制 · 转化设计 · 数据优化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-inner">
+    <div class="section-label">Our Services</div>
+    <h2 class="section-title">我们帮助品牌<br>解决什么问题？</h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <h3>Ad Management & ROI Optimization</h3>
+        <p>精准广告策略，帮助品牌获取潜在客户、提升咨询量与转化率。从广告创意、受众分析到数据优化，让每一笔预算更有效率。</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <h3>High-Converting Creative Design</h3>
+        <p>不只是"好看"的设计，而是真正能带来点击和转化的创意内容。结合市场数据和用户心理，打造高效视觉素材。</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <h3>Branding & Content Strategy</h3>
+        <p>帮助品牌建立更清晰的定位与长期内容方向。从策划、文案到社媒运营，让每次曝光都更有一致性与记忆点。</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <h3>Content Production & Shooting</h3>
+        <p>制作适合 TikTok、Reels、小红书风格的短视频内容。涵盖品牌形象、产品介绍、访谈、探店、活动记录等。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLIENT LOGO STRIP -->
+<section id="clients">
+  <div class="clients-inner">
+    <div class="clients-label">我们服务过的品牌</div>
+    <div class="logo-strip">
+      <div class="logo-chip">Uncle Sun</div>
+      <div class="logo-chip">Step 1 Studio</div>
+      <div class="logo-chip">Step 1 Impian Emas</div>
+      <div class="logo-chip">春秋堂中医馆</div>
+      <div class="logo-chip">Furry Paws & Tails</div>
+      <div class="logo-chip">Hong Wei Electrical</div>
+      <div class="logo-chip">天悦行</div>
+      <div class="logo-chip">苏小弟</div>
+      <div class="logo-chip">Enli Studio</div>
+      <div class="logo-chip">Sharkfin Fintech</div>
+      <div class="logo-chip">Rosy Love</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PORTFOLIO -->
+<section id="cases">
+  <div class="portfolio-inner">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">品牌项目</h2>
+    <p class="section-sub">涵盖 Logo 设计、品牌视觉、社交媒体运营、广告投放等完整服务。<br>点击卡片查看详情。</p>
+
+    <div class="portfolio-grid" id="portfolio-grid">
+      <!-- Cards injected by JS -->
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY -->
+<section id="why">
+  <div class="why-inner">
+    <div class="section-label">Why Deep Build</div>
+    <h2 class="section-title">为什么客户<br>选择我们？</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-img-wrap"><img src="images/why-local.jpg" alt="本地市场" class="why-img" onerror="this.parentElement.innerHTML='<div class=why-img-placeholder></div>'"></div>
+        <h4>更懂本地市场</h4><p>了解 JB 与马来西亚用户习惯，不套用国外模板。</p>
+      </div>
+      <div class="why-card">
+        <div class="why-img-wrap"><img src="images/why-speed.jpg" alt="执行力" class="why-img" onerror="this.parentElement.innerHTML='<div class=why-img-placeholder></div>'"></div>
+        <h4>年轻但执行力强</h4><p>快速沟通、快速执行，品牌不停在"计划阶段"。</p>
+      </div>
+      <div class="why-card">
+        <div class="why-img-wrap"><img src="images/why-results.jpg" alt="内容效果" class="why-img" onerror="this.parentElement.innerHTML='<div class=why-img-placeholder></div>'"></div>
+        <h4>内容与效果并存</h4><p>不只拍得好看，更重视内容是否带来互动与客户。</p>
+      </div>
+      <div class="why-card">
+        <div class="why-img-wrap"><img src="images/why-longterm.jpg" alt="长期合作" class="why-img" onerror="this.parentElement.innerHTML='<div class=why-img-placeholder></div>'"></div>
+        <h4>长期合作思维</h4><p>与客户一起长期成长，而不是一次性合作。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="team-inner">
+    <div class="section-label">Our Services</div>
+    <h2 class="section-title">我们能为你的品牌<br>做什么？</h2>
+    <p class="section-sub">我们相信每一个品牌都值得被认真对待——从策略到执行，每个环节都有专注的人在把关。</p>
+    <div class="team-grid">
+      <div class="team-card svc-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h4>品牌策略</h4>
+        <p>从定位、叙事到市场差异化，帮品牌想清楚「为什么选你」。</p>
+        <div class="team-tags"><span class="team-tag">品牌定位</span><span class="team-tag">策略规划</span></div>
+      </div>
+      <div class="team-card svc-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M8 12H4"/><path d="M12 4v4"/></svg>
+        </div>
+        <h4>视觉设计</h4>
+        <p>Logo、品牌视觉系统、社媒素材——让品牌在每个触点保持专业一致。</p>
+        <div class="team-tags"><span class="team-tag">Logo 设计</span><span class="team-tag">品牌视觉</span></div>
+      </div>
+      <div class="team-card svc-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h4>广告投放</h4>
+        <p>Facebook、Instagram、TikTok 全平台，数据驱动，持续优化 CPL 与转化率。</p>
+        <div class="team-tags"><span class="team-tag">付费广告</span><span class="team-tag">数据优化</span></div>
+      </div>
+      <div class="team-card svc-card">
+        <div class="svc-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>
+        </div>
+        <h4>内容制作</h4>
+        <p>社媒内容策划、产品拍摄、短视频制作，让内容真正服务于品牌增长。</p>
+        <div class="team-tags"><span class="team-tag">内容策划</span><span class="team-tag">拍摄制作</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORKFLOW -->
+<section id="workflow">
+  <div class="workflow-inner">
+    <div class="section-label" style="text-align:center">Workflow</div>
+    <h2 class="section-title" style="text-align:center">我们的合作流程</h2>
+    <div class="workflow-steps">
+      <div class="wf-step"><div class="wf-num">1</div><h4>了解品牌</h4><p>深入了解你的品牌、目标客户与现阶段问题。</p></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">2</div><h4>制定方向</h4><p>规划适合品牌的内容与营销策略。</p></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">3</div><h4>执行落地</h4><p>拍摄、设计、内容发布与广告投放。</p></div>
+      <div class="wf-arrow">→</div>
+      <div class="wf-step"><div class="wf-num">4</div><h4>数据优化</h4><p>根据数据持续优化内容与广告效果。</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="results-inner">
+    <div class="section-label">Results</div>
+    <h2 class="section-title">做出来的成绩，<br>才是最好的证明。</h2>
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-num">Step 1</div>
+        <div class="result-label">健身工作室 · JB Austin Heights</div>
+        <div class="result-quote">接手前客户自己在跑广告，咨询量起伏很大。我们重新梳理受众与素材方向后，咨询量明显变稳定，客流量比之前进步了不少——这也是目前持续合作中的客户。</div>
+        <div class="result-author">— 广告成效 · 持续优化中</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">春秋堂</div>
+        <div class="result-label">中医馆 · 品牌 × 营销并进</div>
+        <div class="result-quote">品牌视觉重整与营销同步推进，社媒内容与广告投放双线并行。品牌曝光与到诊咨询量都有明显提升。</div>
+        <div class="result-author">— Branding + Ads · 长期合作</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">Uncle Sun</div>
+        <div class="result-label">食品品牌 · 完整品牌建立</div>
+        <div class="result-quote">从零开始帮品牌建立视觉系统与社媒内容方向。持续运营至今，品牌调性越来越清晰，线上曝光与互动都比初期有明显积累。</div>
+        <div class="result-author">— Branding + Social Media · 持续合作</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-inner">
+    <h2 class="section-title">想让你的品牌<br>成长得更稳定？</h2>
+    <p>无论你是刚开始经营品牌，还是想提升现有内容与广告效果，Deep Build Marketing 都希望成为你长期合作的营销伙伴。</p>
+    <div class="cta-btns">
+      <a href="https://api.whatsapp.com/send/?phone=60167814138" class="btn-primary" target="_blank">立即咨询 →</a>
+      <a href="https://api.whatsapp.com/send/?phone=60167814138" class="btn-ghost" target="_blank">WhatsApp 联系我们</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">DeepBuild</div>
+      <div class="footer-sub">Johor Bahru Marketing Team · Est 2026</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://www.instagram.com/deepbuild_official" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61588071255831" target="_blank">Facebook</a>
+      <a href="https://www.xiaohongshu.com/user/profile/69e055cb0000000026039dbf" target="_blank">小红书</a>
+      <a href="https://api.whatsapp.com/send/?phone=60167814138" target="_blank">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://api.whatsapp.com/send/?phone=60167814138" class="wa-float" target="_blank">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+// ===== PORTFOLIO DATA =====
+// driveLink: 填入 Google Drive 链接；img: 填入图片路径（放同目录 /images/）
+const clients = [
+  {
+    name: "Uncle Sun",
+    nameEn: "UNCLE SUN",
+    tag: "F&B · Branding & Social Media",
+    desc: "接手前品牌社媒风格零散、没有一致性。我们重新梳理视觉方向，建立统一的品牌调性，持续运营至今，线上曝光与互动稳定积累。",
+    img: "images/uncle-sun.jpg",
+    driveLink: "#"
+  },
+  {
+    name: "Step 1 Studio",
+    nameEn: "STEP 1 STUDIO",
+    tag: "Fitness · Ads & Social Media",
+    desc: "接手前客户自己在跑广告，咨询量很少。我们重新梳理受众与素材方向后，咨询量明显变多也更稳定，客流量比之前进步了不少。",
+    img: "images/step1.jpg",
+    driveLink: "#"
+  },
+  {
+    name: "春秋堂中医馆",
+    nameEn: "春秋堂中医馆",
+    tag: "中医 · Branding & Ads",
+    desc: "品牌视觉重整与营销同步推进——社媒内容策划、Facebook 广告投放双线并行。品牌曝光与到诊咨询量都有明显提升，长期合作中。",
+    img: "images/chunqiutang.jpg",
+    driveLink: "#"
+  },
+  {
+    name: "Furry Paws & Tails",
+    nameEn: "FURRY PAWS",
+    tag: "Pet · Branding & Social Media",
+    desc: "宠物品牌 IP 角色设计、品牌色系规划、节日主题社媒内容、产品推广设计。",
+    img: "images/furrypaws.jpg",
+    driveLink: "#"
+  },
+  {
+    name: "Hong Wei Electrical",
+    nameEn: "HONG WEI ELECTRICAL",
+    tag: "电工 · Social Media",
+    desc: "电工服务品牌社媒内容策划与管理，提升品牌专业形象与线上曝光。",
+    img: "images/hongwei.jpg",
+    driveLink: "#"
+  },
+  {
+    name: "Step 1 Impian Emas",
+    nameEn: "STEP 1 IMPIAN EMAS",
+    tag: "Fitness · Social Media",
+    desc: "社媒内容策划与管理，健身课程推广及品牌形象提升。",
+    img: "images/step1-impian.jpg",
+    driveLink: "#"
+  }
+];
+
+function buildPortfolio() {
+  const grid = document.getElementById('portfolio-grid');
+  clients.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = 'flip-card';
+    card.id = 'card-' + i;
+
+    // Front image: try img first, fallback to placeholder
+    const imgHTML = `<img class="card-img" src="${c.img}" alt="${c.name}"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+      onload="this.nextElementSibling.style.display='none'">
+      <div class="card-img-placeholder">
+        <span>${c.nameEn}</span>
+        <small>图片即将上传</small>
+      </div>`;
+
+    card.innerHTML = `
+      <div class="flip-card-inner">
+        <div class="flip-front" onclick="flipCard(${i})">
+          ${imgHTML}
+          <div class="card-front-info">
+            <div class="card-tag">${c.tag}</div>
+            <div class="card-name">${c.name}</div>
+            <div class="flip-hint">点击查看详情</div>
+          </div>
+        </div>
+        <div class="flip-back">
+          <div>
+            <div class="back-tag">${c.tag}</div>
+            <div class="back-name">${c.name}</div>
+            <div class="back-desc">${c.desc}</div>
+          </div>
+          <div>
+            ${c.driveLink !== '#'
+              ? `<a href="${c.driveLink}" target="_blank" class="back-btn">查看作品 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg></a>`
+              : `<span class="back-btn" style="opacity:0.5;cursor:default">作品整理中</span>`
+            }
+            <span class="back-close" onclick="flipCard(${i})">← 返回</span>
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function flipCard(i) {
+  const card = document.getElementById('card-' + i);
+  card.classList.toggle('flipped');
+}
+
+buildPortfolio();
+</script>
+</body>
+</html>
