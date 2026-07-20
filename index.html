@@ -89,11 +89,17 @@ section{position:relative;z-index:1}
 .service-card p{font-size:13px;color:var(--text-muted);line-height:1.7}
 
 /* ===== CLIENT LOGO STRIP ===== */
-#clients{padding:56px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.clients-inner{max-width:1100px;margin:0 auto}
-.clients-label{text-align:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:28px}
-.logo-strip{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px 12px}
-.logo-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;transition:all 0.2s}
+#clients{padding:48px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden}
+.clients-inner{max-width:100%;margin:0 auto}
+.clients-label{text-align:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px}
+.marquee-wrap{overflow:hidden;position:relative;width:100%}
+.marquee-wrap::before,.marquee-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.marquee-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.marquee-wrap::after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
+.marquee-track{display:flex;gap:12px;width:max-content;animation:marquee 28s linear infinite}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.logo-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 22px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;white-space:nowrap;transition:all 0.2s;flex-shrink:0}
 .logo-chip:hover{border-color:rgba(37,99,235,0.35);color:var(--text)}
 
 /* ===== PORTFOLIO ===== */
@@ -350,18 +356,33 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
 <section id="clients">
   <div class="clients-inner">
     <div class="clients-label">我们服务过的品牌</div>
-    <div class="logo-strip">
-      <div class="logo-chip">Uncle Sun</div>
-      <div class="logo-chip">Step 1 Studio</div>
-      <div class="logo-chip">Step 1 Impian Emas</div>
-      <div class="logo-chip">春秋堂中医馆</div>
-      <div class="logo-chip">Furry Paws & Tails</div>
-      <div class="logo-chip">Hong Wei Electrical</div>
-      <div class="logo-chip">天悦行</div>
-      <div class="logo-chip">苏小弟</div>
-      <div class="logo-chip">Enli Studio</div>
-      <div class="logo-chip">Sharkfin Fintech</div>
-      <div class="logo-chip">Rosy Love</div>
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <!-- 第一组 -->
+        <div class="logo-chip">Uncle Sun</div>
+        <div class="logo-chip">Step 1 Studio</div>
+        <div class="logo-chip">Step 1 Impian Emas</div>
+        <div class="logo-chip">春秋堂中医馆</div>
+        <div class="logo-chip">Furry Paws & Tails</div>
+        <div class="logo-chip">Hong Wei Electrical</div>
+        <div class="logo-chip">天悦行</div>
+        <div class="logo-chip">苏小弟</div>
+        <div class="logo-chip">Enli Studio</div>
+        <div class="logo-chip">Sharkfin Fintech</div>
+        <div class="logo-chip">Rosy Love</div>
+        <!-- 第二组（复制，实现无缝循环） -->
+        <div class="logo-chip">Uncle Sun</div>
+        <div class="logo-chip">Step 1 Studio</div>
+        <div class="logo-chip">Step 1 Impian Emas</div>
+        <div class="logo-chip">春秋堂中医馆</div>
+        <div class="logo-chip">Furry Paws & Tails</div>
+        <div class="logo-chip">Hong Wei Electrical</div>
+        <div class="logo-chip">天悦行</div>
+        <div class="logo-chip">苏小弟</div>
+        <div class="logo-chip">Enli Studio</div>
+        <div class="logo-chip">Sharkfin Fintech</div>
+        <div class="logo-chip">Rosy Love</div>
+      </div>
     </div>
   </div>
 </section>
