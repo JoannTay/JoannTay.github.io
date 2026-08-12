@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>品牌商业潜力深度诊断 | Deep Build Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c14;
+    --surface: #0e1520;
+    --surface2: #141d2e;
+    --border: #1e2d45;
+    --accent: #2563eb;
+    --accent2: #3b82f6;
+    --accent-glow: rgba(37,99,235,0.3);
+    --text: #e8edf5;
+    --text-muted: #6b7fa3;
+    --text-dim: #3d5070;
+    --success: #10b981;
+    --danger: #ef4444;
+    --radius: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans SC',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(37,99,235,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(37,99,235,0.03) 1px,transparent 1px); background-size:40px 40px; pointer-events:none; z-index:0; }
+  .container { max-width:760px; margin:0 auto; padding:0 20px 80px; position:relative; z-index:1; }
+
+  /* HEADER */
+  .header { text-align:center; padding:60px 0 48px; }
+  .header-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(37,99,235,0.12); border:1px solid rgba(37,99,235,0.3); border-radius:100px; padding:6px 16px; font-family:'Syne',sans-serif; font-size:11px; font-weight:600; color:var(--accent2); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:28px; }
+  .header-badge::before { content:''; width:6px; height:6px; background:var(--accent2); border-radius:50%; box-shadow:0 0 8px var(--accent2); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .header h1 { font-family:'Syne',sans-serif; font-size:clamp(26px,5vw,40px); font-weight:800; line-height:1.15; letter-spacing:-0.02em; margin-bottom:14px; }
+  .header h1 span { background:linear-gradient(135deg,var(--accent2),#60a5fa); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .header p { font-size:14px; color:var(--text-muted); line-height:1.7; max-width:480px; margin:0 auto; }
+  .section-divider { height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent); margin:36px 0; }
+
+  /* INFO FIELDS */
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:8px; }
+  .field-group { display:flex; flex-direction:column; gap:6px; }
+  .field-group label { font-size:11px; font-weight:500; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; }
+  .field-group input { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:11px 14px; color:var(--text); font-family:'Noto Sans SC',sans-serif; font-size:14px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; width:100%; }
+  .field-group input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+  .field-group input.error { border-color:var(--danger); box-shadow:0 0 0 3px rgba(239,68,68,0.2); }
+  .field-group input::placeholder { color:var(--text-dim); }
+  .field-error { font-size:11px; color:var(--danger); margin-top:3px; display:none; }
+  .field-error.show { display:block; }
+
+  /* DIMENSION CARD */
+  .dimension { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:20px; overflow:hidden; transition:border-color 0.3s; }
+  .dimension:hover { border-color:rgba(37,99,235,0.35); }
+  .dimension-header { display:flex; align-items:center; gap:14px; padding:20px 22px 16px; border-bottom:1px solid var(--border); }
+  .dim-number { width:34px; height:34px; background:linear-gradient(135deg,var(--accent),#1d4ed8); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:14px; font-weight:700; color:#fff; flex-shrink:0; }
+  .dim-title { flex:1; }
+  .dim-title h3 { font-family:'Syne',sans-serif; font-size:15px; font-weight:700; letter-spacing:-0.01em; }
+  .dim-title p { font-size:11px; color:var(--text-muted); margin-top:2px; letter-spacing:0.06em; text-transform:uppercase; }
+  .dim-score-badge { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--text-dim); transition:color 0.3s; min-width:36px; text-align:right; }
+
+  /* QUESTION */
+  .question-list { padding:6px 22px 14px; }
+  .question { padding:14px 0; border-bottom:1px solid rgba(30,45,69,0.5); }
+  .question:last-child { border-bottom:none; }
+  .question-text { font-size:13px; color:var(--text-muted); margin-bottom:12px; line-height:1.6; }
+  .question-text strong { color:var(--text); font-weight:500; }
+
+  /* OPTIONS - VERTICAL */
+  .options { display:flex; flex-direction:column; gap:7px; }
+  .option { display:none; }
+  .option + label { display:flex; align-items:center; gap:10px; padding:9px 14px; border:1px solid var(--border); border-radius:8px; font-size:13px; color:var(--text-muted); cursor:pointer; transition:all 0.18s; user-select:none; }
+  .option + label:hover { border-color:var(--accent2); color:var(--accent2); background:rgba(37,99,235,0.06); }
+  .option:checked + label { background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:0 2px 12px rgba(37,99,235,0.35); }
+  .option-key { font-family:'Syne',sans-serif; font-weight:700; font-size:12px; width:18px; flex-shrink:0; opacity:0.85; }
+
+  /* DIM 7 */
+  .inquiry-grid { display:flex; flex-direction:column; gap:14px; padding:18px 22px; }
+  .inquiry-item { display:flex; flex-direction:column; gap:7px; }
+  .inquiry-item label { font-size:12px; color:var(--text-muted); font-weight:500; }
+  .inquiry-item input, .inquiry-item textarea { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--text); font-family:'Noto Sans SC',sans-serif; font-size:13px; outline:none; transition:border-color 0.2s,box-shadow 0.2s; resize:vertical; }
+  .inquiry-item input:focus, .inquiry-item textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+  .inquiry-item input::placeholder, .inquiry-item textarea::placeholder { color:var(--text-dim); }
+
+  /* SUBMIT */
+  .submit-wrap { text-align:center; margin-top:36px; }
+  .btn-submit { display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg,var(--accent),#1d4ed8); color:#fff; border:none; border-radius:10px; padding:16px 40px; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; cursor:pointer; letter-spacing:0.02em; box-shadow:0 4px 24px rgba(37,99,235,0.4); transition:all 0.2s; }
+  .btn-submit:hover { transform:translateY(-2px); box-shadow:0 8px 32px rgba(37,99,235,0.5); }
+
+  /* REPORT */
+  #report-page { display:none; animation:fadeIn 0.5s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .report-header { text-align:center; padding:56px 0 40px; }
+  .report-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); border-radius:100px; padding:6px 16px; font-family:'Syne',sans-serif; font-size:11px; font-weight:600; color:var(--success); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:22px; }
+  .report-header h2 { font-family:'Syne',sans-serif; font-size:clamp(22px,4vw,34px); font-weight:800; letter-spacing:-0.02em; margin-bottom:8px; }
+  .report-header p { font-size:13px; color:var(--text-muted); }
+  .info-summary { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin-bottom:24px; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .info-summary-item .lbl { font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.1em; }
+  .info-summary-item .val { font-size:14px; color:var(--text); font-weight:500; }
+  .score-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:36px 24px; text-align:center; margin-bottom:24px; position:relative; overflow:hidden; }
+  .score-section::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:200px; height:200px; background:radial-gradient(circle,var(--accent-glow),transparent 70%); pointer-events:none; }
+  .score-label { font-size:12px; color:var(--text-muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; }
+  .score-number { font-family:'Syne',sans-serif; font-size:80px; font-weight:800; line-height:1; letter-spacing:-0.04em; margin-bottom:8px; background:linear-gradient(135deg,#60a5fa,var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .score-max { font-size:13px; color:var(--text-dim); margin-bottom:20px; }
+  .score-bar-wrap { background:var(--surface2); border-radius:100px; height:8px; max-width:320px; margin:0 auto 16px; overflow:hidden; }
+  .score-bar-fill { height:100%; border-radius:100px; background:linear-gradient(90deg,var(--accent),#60a5fa); transition:width 1.2s cubic-bezier(0.16,1,0.3,1); box-shadow:0 0 12px var(--accent-glow); }
+  .score-tier { display:inline-block; padding:5px 16px; border-radius:100px; font-family:'Syne',sans-serif; font-size:13px; font-weight:700; }
+  .chart-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 24px; margin-bottom:24px; text-align:center; }
+  .chart-title { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:24px; }
+  #radar-chart { display:block; margin:0 auto; max-width:100%; }
+  .dim-results { margin-bottom:24px; }
+  .dim-result-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px; }
+  .dr-header { display:flex; gap:16px; align-items:center; margin-bottom:12px; }
+  .dr-score { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'Syne',sans-serif; font-size:17px; font-weight:800; flex-shrink:0; }
+  .dr-name { font-family:'Syne',sans-serif; font-size:14px; font-weight:700; flex:1; }
+  .dr-bar-wrap { background:var(--surface2); border-radius:100px; height:5px; margin-bottom:12px; }
+  .dr-bar-fill { height:100%; border-radius:100px; transition:width 1s ease; }
+  .dr-questions { display:flex; flex-direction:column; gap:8px; }
+  .dr-q-row { font-size:12px; line-height:1.55; padding:8px 12px; background:var(--surface2); border-radius:7px; }
+  .dr-q-label { color:var(--text-dim); font-size:11px; margin-bottom:2px; }
+  .dr-q-choice { color:var(--accent2); font-weight:500; margin-bottom:3px; }
+  .dr-q-advice { color:var(--text-muted); }
+  .inquiry-summary { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px; margin-bottom:24px; }
+  .inquiry-summary h4 { font-family:'Syne',sans-serif; font-size:13px; font-weight:700; color:var(--text-muted); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:16px; }
+  .iq-row { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid rgba(30,45,69,0.5); font-size:13px; }
+  .iq-row:last-child { border-bottom:none; }
+  .iq-row .iq-lbl { color:var(--text-dim); min-width:100px; flex-shrink:0; }
+  .iq-row .iq-val { color:var(--text); }
+  .cta-section { display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+  .btn-wa { display:flex; align-items:center; justify-content:center; gap:10px; background:#16a34a; color:#fff; border:none; border-radius:10px; padding:17px 28px; font-family:'Syne',sans-serif; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none; box-shadow:0 4px 20px rgba(22,163,74,0.35); transition:all 0.2s; }
+  .btn-wa:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(22,163,74,0.45); }
+  .btn-pdf { display:flex; align-items:center; justify-content:center; gap:10px; background:transparent; color:var(--text-muted); border:1px solid var(--border); border-radius:10px; padding:14px 28px; font-family:'Syne',sans-serif; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .btn-pdf:hover { border-color:var(--accent2); color:var(--accent2); }
+  .footer { text-align:center; padding:32px 0 20px; font-size:12px; color:var(--text-dim); }
+  .footer strong { color:var(--text-muted); }
+
+  .tier-low { background:rgba(239,68,68,0.15); color:#ef4444; }
+  .tier-mid { background:rgba(245,158,11,0.15); color:#f59e0b; }
+  .tier-good { background:rgba(59,130,246,0.15); color:#60a5fa; }
+  .tier-high { background:rgba(16,185,129,0.15); color:#10b981; }
+  .score-dim-low { background:rgba(239,68,68,0.12); color:#ef4444; }
+  .score-dim-mid { background:rgba(245,158,11,0.12); color:#f59e0b; }
+  .score-dim-good { background:rgba(59,130,246,0.12); color:#60a5fa; }
+  .score-dim-high { background:rgba(16,185,129,0.12); color:#10b981; }
+  .bar-low { background:linear-gradient(90deg,#ef4444,#f87171); }
+  .bar-mid { background:linear-gradient(90deg,#f59e0b,#fbbf24); }
+  .bar-good { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
+  .bar-high { background:linear-gradient(90deg,#10b981,#34d399); }
+
+  .progress-dots { display:flex; justify-content:center; gap:6px; margin-bottom:32px; }
+  .pdot { width:6px; height:6px; border-radius:50%; background:var(--border); transition:all 0.3s; }
+  .pdot.filled { background:var(--accent2); width:18px; border-radius:3px; }
+
+  .btn-retake { display:flex; align-items:center; justify-content:center; gap:8px; background:transparent; color:var(--text-dim); border:1px solid var(--border); border-radius:10px; padding:12px 28px; font-family:'Syne',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.2s; }
+  .btn-retake:hover { border-color:var(--text-muted); color:var(--text-muted); }
+  .btn-pdf.loading { opacity:0.6; pointer-events:none; }
+
+  /* PDF watermark - only visible during export */
+  .pdf-watermark { display:none; text-align:center; padding:16px; font-family:'Syne',sans-serif; font-size:11px; color:var(--text-dim); border-top:1px solid var(--border); margin-top:16px; letter-spacing:0.08em; }
+
+  @media (max-width:520px) {
+    .info-grid { grid-template-columns:1fr; }
+    .info-summary { grid-template-columns:1fr; }
+  }
+  @media print {
+    #form-page { display:none !important; }
+    #report-page { display:block !important; }
+    body::before { display:none; }
+    .btn-wa, .btn-pdf, .btn-retake { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="form-page">
+  <div class="container">
+    <div class="header">
+      <div class="header-badge">Deep Build Marketing</div>
+      <h1>品牌商业潜力<br><span>深度诊断分析</span></h1>
+      <p>通过 6 大维度 · 18 道问题，精准评估你的品牌商业潜力，生成专属诊断报告</p>
+    </div>
+    <div class="progress-dots" id="progress-dots"></div>
+    <div class="section-divider"></div>
+    <div class="info-grid">
+      <div class="field-group">
+        <label>公司名称 <span style="color:#ef4444">*</span></label>
+        <input type="text" id="company" placeholder="填写公司名">
+        <div class="field-error" id="err-company">请填写公司名称</div>
+      </div>
+      <div class="field-group">
+        <label>诊断日期</label>
+        <input type="date" id="diagdate">
+      </div>
+      <div class="field-group">
+        <label>负责人姓名 <span style="color:#ef4444">*</span></label>
+        <input type="text" id="person" placeholder="负责人">
+        <div class="field-error" id="err-person">请填写负责人姓名</div>
+      </div>
+      <div class="field-group">
+        <label>联系号码 <span style="color:#ef4444">*</span></label>
+        <input type="text" id="phone" placeholder="+60 12-345 6789">
+        <div class="field-error" id="err-phone">请填写联系号码</div>
+      </div>
+    </div>
+    <div class="section-divider"></div>
+    <div id="dimensions-container"></div>
+    <div class="dimension" id="dim7">
+      <div class="dimension-header">
+        <div class="dim-number">7</div>
+        <div class="dim-title"><h3>公司现状深度调查</h3><p>Deep Inquiry</p></div>
+      </div>
+      <div class="inquiry-grid">
+        <div class="inquiry-item"><label>1. 公司的 FB / Website 链接</label><input type="text" id="iq1" placeholder="请输入网址"></div>
+        <div class="inquiry-item"><label>2. 公司目前情况？</label><textarea id="iq2" rows="2" placeholder="简述业务状态"></textarea></div>
+        <div class="inquiry-item"><label>3. 一个月业绩 / 希望增加的业绩？</label><input type="text" id="iq3" placeholder="如：50k / 目标 100k"></div>
+        <div class="inquiry-item"><label>4. 广告现状 / 想要进步的地方？</label><textarea id="iq4" rows="2" placeholder="目前痛点"></textarea></div>
+        <div class="inquiry-item"><label>5. 对于打广告的期望是什么？</label><textarea id="iq5" rows="2" placeholder="期望目标"></textarea></div>
+      </div>
+    </div>
+    <div class="submit-wrap">
+      <button class="btn-submit" onclick="generateReport()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        点击生成深度分析报告
+      </button>
+    </div>
+    <div class="footer">Powered by <strong>Deep Build Marketing</strong> · Brand Strategy Assessment</div>
+  </div>
+</div>
+
+<div id="report-page">
+  <div class="container">
+    <div class="report-header">
+      <div class="report-badge">✓ 诊断已完成</div>
+      <h2>品牌诊断汇总报告</h2>
+      <p>Deep Build Marketing · 品牌商业潜力评估</p>
+    </div>
+    <div class="info-summary" id="info-summary"></div>
+    <div class="score-section">
+      <div class="score-label">综合商业潜力评分</div>
+      <div class="score-number" id="total-score">0</div>
+      <div class="score-max">满分 90 分</div>
+      <div class="score-bar-wrap"><div class="score-bar-fill" id="score-bar" style="width:0%"></div></div>
+      <span class="score-tier" id="score-tier"></span>
+    </div>
+    <div class="chart-section">
+      <div class="chart-title">品牌诊断图谱</div>
+      <canvas id="radar-chart" width="360" height="320"></canvas>
+    </div>
+    <div class="dim-results" id="dim-results"></div>
+    <div class="inquiry-summary">
+      <h4>深度调查回答</h4>
+      <div id="iq-summary"></div>
+    </div>
+    <div class="cta-section">
+      <a href="https://wa.me/601169930903" target="_blank" class="btn-wa">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        点击免费咨询 Marketing 策略
+      </a>
+      <button class="btn-pdf" id="btn-pdf-export" onclick="exportPDF()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        <span id="pdf-btn-text">导出专业 PDF 报告</span>
+      </button>
+      <button class="btn-retake" onclick="retakeTest()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        重新测试
+      </button>
+    </div>
+    <div class="footer"><strong>Deep Build Marketing</strong> · 品牌商业潜力诊断系统</div>
+  </div>
+</div>
+
+<script>
+// ====== 90条独立建议：每维度3题，每题5选项 ======
+// 结构: advice[dimIndex][questionIndex][optionIndex(0=A,4=E)]
+const advice = [
+  // 维度1：品牌定位
+  [
+    // 题1-1
+    [
+      "你完全不了解目标客户是谁，建议立刻做「最赚钱客户」访谈，收集3-5个真实案例建立初步画像。",
+      "你有方向但还不够清晰，试着写出客户的年龄、职业、痛点，把「大概」变成具体文字。",
+      "你有基本画像但细节不足，补充客户的「触发购买时刻」和「最怕什么」，让画像更立体。",
+      "你有明确画像，下一步是验证——用画像去反推你的文案和产品，看转换率是否提升。",
+      "你已建立完整 Persona，把它分享给团队，确保所有内容创作和广告投放都基于同一画像。"
+    ],
+    // 题1-2
+    [
+      "你的品牌没有定位，潜在客户不知道你解决什么问题，亟需用一句话说清楚你的核心价值。",
+      "你有 Slogan 但不清晰，建议用「我帮助[目标客户]解决[痛点]，实现[成果]」格式重写定位句。",
+      "你有简单定位，检查它是否真的说出客户「想要的结果」，而非只是描述你做什么。",
+      "你有清晰定位，把它放在每一个触点：主页首屏、简介、广告素材，让新访客3秒就能理解你。",
+      "你的定位已经过验证，持续用数据监测定位的吸引力，并每季度检视是否需要微调。"
+    ],
+    // 题1-3
+    [
+      "你说不出品牌在行业里的独特价值，这会让你陷入价格战。先列出竞争对手的卖点，找出他们没做到的空白。",
+      "你有想法但模糊，把独特价值写成一段话，然后问5个真实客户「这对你有吸引力吗」来验证。",
+      "你有基本价值但没有被充分传达，在内容和广告中加入具体数字或案例，让价值变得可见。",
+      "你能表达价值，把它转化为「对比式」内容：展示选择你 vs 不选择你的具体差异。",
+      "你的独特价值已成为可见优势，系统地收集客户见证，让价值被客户的口吻传播出去。"
+    ]
+  ],
+  // 维度2：市场差异化
+  [
+    // 题2-1
+    [
+      "你不了解竞争对手，先花2小时研究行业前3名：他们的定价、内容、评价、产品卖点是什么。",
+      "你只是简单了解，制作一张竞争对比表，逐项对比服务、价格、体验、口碑，找出差异点。",
+      "你大概知道两三点差异，但还不够有力，把这些差异转化为内容主题，让客户主动感受不同。",
+      "你能具体列出差异，下一步是把它变成品牌故事，让「为什么选你」有情感说服力。",
+      "你有明显差异化优势，定期监测竞争对手动态，持续强化并在营销内容中反复强调你的领先之处。"
+    ],
+    // 题2-2
+    [
+      "你完全没有「别人没有你才有」的东西，这是最危险的状态——开始思考你的服务流程、团队经验或结果有何独特之处。",
+      "你有一点不明显的差异，需要更用力放大它，哪怕只是服务速度、售后体验或某个细节的坚持。",
+      "你有特色但不够突出，在宣传上大胆把它放在最显眼的位置，别藏在文字堆里。",
+      "你有可展示的差异，用案例、对比图、Before & After 呈现给潜在客户看，让他们亲眼感受。",
+      "你的差异非常明显，把它打造成品牌标志性符号，让「提到你就想到这个」成为市场认知。"
+    ],
+    // 题2-3
+    [
+      "客户常说贵，说明你的价值传达有问题，不是降价——而是用内容让客户先感受到价值再看价格。",
+      "客户犹豫多，通常是信任度不足，增加社会证明（好评、案例、数据）来降低决策风险。",
+      "偶尔被接受，需要优化你的报价方式和呈现价值的顺序，先建立信任再谈价格。",
+      "大多数人觉得合理，专注维持这个感知，并通过增值服务让客户觉得「超值」而非「刚好合理」。",
+      "客户主动说 CP 值高，把这些真实反馈收集起来作为案例素材，让未来的客户看到别人的评价。"
+    ]
+  ],
+  // 维度3：产品体验
+  [
+    // 题3-1
+    [
+      "你完全没有独特的服务体验，从「第一次联系到成交后跟进」画出你的服务地图，找3个可以加分的节点。",
+      "你有一些流程但不成体系，把现有的做法整理成 SOP，让每个客户都能得到一致的服务体验。",
+      "你有简单体验流程，在其中加入一个「惊喜时刻」——小礼物、感谢信、意外的额外服务。",
+      "你有完整流程，开始将它「品牌化」：给它取一个名字，让客户觉得这是你专属的服务体验。",
+      "你有独特且品牌化的体验，把它记录成视频或文字案例，让潜在客户在决策前就感受到这种不同。"
+    ],
+    // 题3-2
+    [
+      "你没有收集 Feedback，立刻设计一个简单的满意度问卷，在每次服务后发送给客户。",
+      "偶尔有人回应但没有系统化，建立固定的好评收集节点，例如服务完成后3天主动询问。",
+      "你有一些评论，把最好的3-5条好评做成视觉素材放在社媒和简介中，让它发挥传播价值。",
+      "你有稳定好评，开始建立「客户见证库」，按行业、问题类型分类，在销售时精准展示。",
+      "你有大量好评分享，把这些内容系统化——定期发布 UGC、案例故事，形成持续的信任背书。"
+    ],
+    // 题3-3
+    [
+      "你的产品和市场上的没有差别，这会让你永远活在价格竞争里，需要认真思考「只有我才能做到的是什么」。",
+      "你稍微不同但差距微小，把这个「稍微」放大，是材料、是工艺、是服务时间、还是某种承诺？",
+      "你的产品属于普通水平，考虑增加附加价值：延保、专属咨询、定期回访，让平凡变得特别。",
+      "你有明显特色，确保每一个接触点都在传达这个特色，包括包装、沟通方式、交付形式。",
+      "你的产品独特且难以复制，保护好这个核心优势，同时思考如何将它扩展成品牌的护城河。"
+    ]
+  ],
+  // 维度4：营销策略
+  [
+    // 题4-1
+    [
+      "你完全没有营销规划，每次临时想到才做，结果是断断续续无法积累效果，建议先做一个月的内容计划。",
+      "你偶尔想到什么就做什么，这种方式无法建立品牌认知，需要设定固定的内容节奏和发布频率。",
+      "你有基本方向，下一步是把「方向」转化成「计划」：每月发什么主题、每周发几篇、目标是什么。",
+      "你有清楚策略，把策略进一步细化成执行日历，并每月检视数据来优化下一月的方向。",
+      "你有季度/年度规划，这是最健康的营销状态，持续追踪 KPI 并根据市场变化灵活调整。"
+    ],
+    // 题4-2
+    [
+      "你的内容完全没有带来转换，内容不等于销售，需要在每篇内容中加入明确的行动呼吁（CTA）。",
+      "偶尔有转换但不稳定，检查你的内容漏斗：是吸引力不够、信任度不够、还是转换路径不清晰？",
+      "转换率一般，尝试 A/B 测试：不同的标题、图片、CTA 文字，找出对你受众最有效的组合。",
+      "你有稳定转换，记录哪类内容转换率最高，把它复制成模板，系统化产出高转换内容。",
+      "你的转换明显且可追踪，下一步是优化每个转换节点的成本，降低 CPL，提升 ROI。"
+    ],
+    // 题4-3
+    [
+      "你完全没有 KPI，没有 KPI 就没有方向，先设定3个最重要的指标：触及率、询问数、成交数。",
+      "你偶尔设 KPI 但不固定，把 KPI 变成每月固定仪式：月初设定、月末回顾，形成复盘习惯。",
+      "你有 KPI 但不清楚它们是否合理，对照行业基准数据校准你的 KPI，让目标有参考依据。",
+      "你有固定 KPI，开始建立数据看板，把每周的关键数字可视化，让趋势一眼看出。",
+      "你有 KPI + 月度追踪，这是数据驱动营销的正确姿态，下一步是预测模型：根据历史数据预测未来表现。"
+    ]
+  ],
+  // 维度5：社媒执行
+  [
+    // 题5-1
+    [
+      "你完全没有更新，空白的社媒主页会让潜在客户失去信任，从每周1篇开始，先建立存在感。",
+      "你不定期更新，不规律的发布会让算法降低你的触及率，设定固定发布日，让受众形成期待。",
+      "你有一些内容，但频率还不够稳定，建立内容素材库，在状态好时批量创作，确保持续供应。",
+      "你有规律更新，现在专注提升内容质量：每篇内容都应该解决一个具体问题或传达一个清晰信息。",
+      "你有稳定策略化更新，这是内容营销的理想状态，下一步是分析数据，找出表现最好的内容类型并放大。"
+    ],
+    // 题5-2
+    [
+      "你的视觉完全不统一，这会让品牌看起来不专业，立刻确定2-3个主色、1套字体、固定的排版风格。",
+      "你有基本统一但还不精致，设计一套简单的品牌模板，确保每次发布都用同一套视觉框架。",
+      "你的视觉差不多统一，检查你的头像、简介、封面图、内容图是否传达出同一个品牌感。",
+      "你的视觉一致，进一步精进：确保在不同平台（FB/INS/小红书）都有平台专属但品牌一致的视觉风格。",
+      "你的视觉非常专业，把这套视觉规范整理成品牌手册，确保未来的合作方或员工都能保持一致。"
+    ],
+    // 题5-3
+    [
+      "你的内容完全没有建立信任感，潜在客户不信任你就不会购买，先从「专业干货」和「真实案例」两类内容开始。",
+      "你的内容很少让人觉得可信，增加「数字证明」：服务了多少客户、达成了什么成果，让信任有依据。",
+      "你的内容普通，尝试加入「幕后故事」和「客户见证」，让受众感受到你的真实和专业。",
+      "你的内容有明显信任效果，进一步建立「权威感」：分享行业洞察、趋势分析、专业观点。",
+      "你的内容建立了强信任感，把最高信任度的内容做成「品牌资产」：置顶、精选、长期投放。"
+    ]
+  ],
+  // 维度6：成交转换
+  [
+    // 题6-1
+    [
+      "看了内容之后客户完全没有行动，说明你的内容缺乏「下一步指引」，每篇内容都要有明确的 CTA。",
+      "偶尔有客户行动，这说明你的产品有吸引力，但转换路径不够顺畅，简化「从看到到询问」的步骤。",
+      "转换率普通，测试不同的 CTA 方式：私信、留言、点击链接，找出哪个对你的受众最有效。",
+      "客户有持续行动，优化询问后的跟进速度——90%的询单在30分钟内回复成交率最高。",
+      "客户主动找你，这是品牌信任度的最高表现，建立快速响应系统并优化报价流程，抓住每一个主动询问。"
+    ],
+    // 题6-2
+    [
+      "你完全没有咨询流程，每次询问都随机应对，这会让成交率极不稳定，立刻建立标准回复模板。",
+      "你随便回复询问，缺乏结构的回复会让客户感到不专业，设计一套「问题-价值-报价」的标准流程。",
+      "你有基本回应但不完整，补充关键环节：了解需求→展示案例→解答疑虑→给出报价→跟进，形成完整链条。",
+      "你有 SOP，检视每个步骤的效率，找出成交率最低的环节，重点优化那个卡点。",
+      "你有快速成交系统，把成功的成交对话整理成案例，用于培训团队和优化话术。"
+    ],
+    // 题6-3
+    [
+      "你说不出「为什么选你」，这是最根本的问题，没有清晰的选择理由，价格就是唯一的竞争武器。",
+      "你依赖价格竞争，这是最不健康的状态，试着找出除价格以外的3个购买理由，并反复传达。",
+      "你有基本优势，把优势转化成「对比语言」：不是「我们很专业」，而是「我们帮X客户在Y时间内实现了Z结果」。",
+      "你有清晰的选择理由，把它变成核心故事，在每次咨询的开头就讲述，让客户在比较之前就产生倾向。",
+      "你用故事和价值驱动成交，把最成功的成交故事记录下来，持续迭代并分享给团队成为标准话术。"
+    ]
+  ]
+];
+
+const dimensions = [
+  { id:1, name:'品牌定位', en:'Brand Positioning' },
+  { id:2, name:'市场差异化', en:'Market Differentiation' },
+  { id:3, name:'产品体验', en:'Product Experience' },
+  { id:4, name:'营销策略', en:'Marketing Strategy' },
+  { id:5, name:'社媒执行', en:'Social Media' },
+  { id:6, name:'成交转换', en:'Conversion' }
+];
+
+const questions = [
+  // 维度1
+  [
+    { q:'你是否清楚你的「最赚钱客户」是谁？以及 TA 想透过产品／服务解决什么问题？', opts:['完全不清楚','有大概方向','有基本画像，但不够清晰','有明确画像','有完整 Persona'] },
+    { q:'你的品牌定位是否能清楚表达「为市场解决什么问题」？', opts:['没有定位','有一句 slogan，但不清晰','有简单定位','有清晰定位','有验证过的定位'] },
+    { q:'你是否清楚品牌在行业里的独特价值？', opts:['完全没有','有想法但模糊','有基本价值','能表达价值','独特价值转可见优势'] }
+  ],
+  // 维度2
+  [
+    { q:'你的品牌是否知道和竞争对手的核心差别？', opts:['不知道','简单知道','大概知道两三点','能具体列出差异','有明显差异'] },
+    { q:'你的品牌服务／产品是否有「别人没有，但你有」的东西？', opts:['完全没有','有一点不明显','有特色但不够突出','有可展示的差异','差异非常明显'] },
+    { q:'你的品牌价格、体验、价值是否能让顾客觉得「值得」？', opts:['顾客常说贵','顾客犹豫多','偶尔被接受','大多数人觉得合理','顾客主动说 CP 值高'] }
+  ],
+  // 维度3
+  [
+    { q:'你是否有独特的服务或产品体验？', opts:['完全没有','有一些流程','有简单体验','有完整流程','有独特体验且品牌化'] },
+    { q:'是否有稳定的好评与 Feedback？', opts:['没有 Feedback','偶尔有人回应','有一些','有稳定好的评论','有大量好评分享'] },
+    { q:'产品／服务是否比市场上更独特？', opts:['完全没有','稍微不同','普通','有明显特色','独特无法复制'] }
+  ],
+  // 维度4
+  [
+    { q:'你是否有固定的营销方向或规划？', opts:['完全没有','偶尔想到什么做什么','有基本方向','有清楚策略','有季度／年度规划'] },
+    { q:'内容是否有带来「转换率」？', opts:['完全没有','偶尔有','转换率一般','有稳定转换','明显且可追踪'] },
+    { q:'你是否有明确 KPI？', opts:['没有','偶尔设','不清楚','固定 KPI','KPI + 月度追踪'] }
+  ],
+  // 维度5
+  [
+    { q:'是否有稳定更新？', opts:['完全没有','不定期','有一些','有规律','稳定策略化更新'] },
+    { q:'视觉呈现是否统一？', opts:['不统一','基本统一','差不多','视觉一致','非常专业'] },
+    { q:'内容是否让 TA 感觉可信专业？', opts:['完全没有','很少','普通','明显效果','强信任感'] }
+  ],
+  // 维度6
+  [
+    { q:'顾客是否产生后续行动？', opts:['完全没有','偶尔','普通','有持续行动','顾客主动找你'] },
+    { q:'是否有系统化咨询流程？', opts:['完全没有','随便回','有基本回应','有 SOP','快速成交系统'] },
+    { q:'为什么要选你？理由清楚吗？', opts:['说不出','依赖价格','基本优势','清晰理由','故事价值驱动'] }
+  ]
+];
+
+// Build form
+function buildForm() {
+  const container = document.getElementById('dimensions-container');
+  const dots = document.getElementById('progress-dots');
+  for (let i=0;i<7;i++) {
+    const d=document.createElement('div');
+    d.className='pdot'+(i===0?' filled':'');
+    d.id='dot-'+i;
+    dots.appendChild(d);
+  }
+  dimensions.forEach((dim,di) => {
+    const card=document.createElement('div');
+    card.className='dimension';
+    let questionsHTML=questions[di].map((q,qi) => {
+      const name=`q${dim.id}_${qi}`;
+      const optsHTML=q.opts.map((opt,oi) => {
+        const key=String.fromCharCode(65+oi);
+        return `<input type="radio" class="option" name="${name}" id="${name}_${oi}" value="${oi+1}" onchange="updateDimScore(${dim.id})">
+<label for="${name}_${oi}"><span class="option-key">${key}</span>${opt}</label>`;
+      }).join('\n');
+      return `<div class="question">
+<div class="question-text"><strong>${dim.id}-${qi+1}</strong>&nbsp;&nbsp;${q.q}</div>
+<div class="options">${optsHTML}</div>
+</div>`;
+    }).join('');
+    card.innerHTML=`<div class="dimension-header">
+<div class="dim-number">${dim.id}</div>
+<div class="dim-title"><h3>${dim.name}</h3><p>${dim.en}</p></div>
+<div class="dim-score-badge" id="badge-${dim.id}">—</div>
+</div>
+<div class="question-list">${questionsHTML}</div>`;
+    container.appendChild(card);
+  });
+  document.getElementById('diagdate').value=new Date().toISOString().split('T')[0];
+}
+
+function updateDimScore(dimId) {
+  const di=dimId-1;
+  let score=0;
+  questions[di].forEach((_,qi)=>{
+    const sel=document.querySelector(`input[name="q${dimId}_${qi}"]:checked`);
+    if(sel) score+=parseInt(sel.value);
+  });
+  const badge=document.getElementById('badge-'+dimId);
+  badge.textContent=score||'—';
+  const pct=score/15;
+  if(score===0) badge.style.color='var(--text-dim)';
+  else if(pct<0.4) badge.style.color='#ef4444';
+  else if(pct<0.6) badge.style.color='#f59e0b';
+  else if(pct<0.8) badge.style.color='#60a5fa';
+  else badge.style.color='#10b981';
+  // dots
+  let filled=1;
+  dimensions.forEach((d,dii)=>{
+    let s=0;
+    questions[dii].forEach((_,qi)=>{
+      const sel=document.querySelector(`input[name="q${d.id}_${qi}"]:checked`);
+      if(sel) s+=parseInt(sel.value);
+    });
+    if(s>0) filled=dii+2;
+  });
+  for(let i=0;i<7;i++){
+    const dot=document.getElementById('dot-'+i);
+    if(dot) dot.className='pdot'+(i<filled?' filled':'');
+  }
+}
+
+function getScores() {
+  const scores=[];
+  let total=0;
+  dimensions.forEach((dim,di)=>{
+    let s=0;
+    questions[di].forEach((_,qi)=>{
+      const sel=document.querySelector(`input[name="q${dim.id}_${qi}"]:checked`);
+      if(sel) s+=parseInt(sel.value);
+    });
+    scores.push(s);
+    total+=s;
+  });
+  return {scores,total};
+}
+
+function getScoreClass(score,max){
+  const p=score/max;
+  if(p<0.4) return 'low';
+  if(p<0.6) return 'mid';
+  if(p<0.8) return 'good';
+  return 'high';
+}
+
+function getTierLabel(total){
+  if(total<27) return {label:'⚠️ 品牌基础薄弱，亟需策略重建',cls:'tier-low'};
+  if(total<54) return {label:'📌 有一定基础，存在明显提升空间',cls:'tier-mid'};
+  if(total<72) return {label:'🔵 品牌运营良好，策略优化阶段',cls:'tier-good'};
+  return {label:'🏆 品牌竞争力强，持续精进领先优势',cls:'tier-high'};
+}
+
+function generateReport(){
+  // Validate required fields
+  const company=document.getElementById('company').value.trim();
+  const person=document.getElementById('person').value.trim();
+  const phone=document.getElementById('phone').value.trim();
+  let valid=true;
+
+  function setErr(id,errId,show){
+    const el=document.getElementById(id);
+    const err=document.getElementById(errId);
+    if(show){ el.classList.add('error'); err.classList.add('show'); }
+    else { el.classList.remove('error'); err.classList.remove('show'); }
+  }
+
+  if(!company){ setErr('company','err-company',true); valid=false; } else setErr('company','err-company',false);
+  if(!person){ setErr('person','err-person',true); valid=false; } else setErr('person','err-person',false);
+  if(!phone){ setErr('phone','err-phone',true); valid=false; } else setErr('phone','err-phone',false);
+
+  if(!valid){
+    document.getElementById('company').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  // Clear errors on input
+  ['company','person','phone'].forEach(id=>{
+    document.getElementById(id).addEventListener('input',function(){
+      this.classList.remove('error');
+      document.getElementById('err-'+id).classList.remove('show');
+    },{once:true});
+  });
+
+  const {scores,total}=getScores();
+  const diagdate=document.getElementById('diagdate').value||'未填';
+  const iq1=document.getElementById('iq1').value||'未填';
+  const iq2=document.getElementById('iq2').value||'未填';
+  const iq3=document.getElementById('iq3').value||'未填';
+  const iq4=document.getElementById('iq4').value||'未填';
+  const iq5=document.getElementById('iq5').value||'未填';
+
+  document.getElementById('form-page').style.display='none';
+  document.getElementById('report-page').style.display='block';
+  window.scrollTo(0,0);
+
+  document.getElementById('info-summary').innerHTML=`
+<div class="info-summary-item"><div class="lbl">公司名称</div><div class="val">${company}</div></div>
+<div class="info-summary-item"><div class="lbl">负责人</div><div class="val">${person}</div></div>
+<div class="info-summary-item"><div class="lbl">联系号码</div><div class="val">${phone}</div></div>
+<div class="info-summary-item"><div class="lbl">诊断日期</div><div class="val">${diagdate}</div></div>`;
+
+  // Score animation
+  const scoreEl=document.getElementById('total-score');
+  const barEl=document.getElementById('score-bar');
+  const tierEl=document.getElementById('score-tier');
+  const tier=getTierLabel(total);
+  let count=0;
+  const step=Math.max(1,Math.floor(total/40));
+  const timer=setInterval(()=>{
+    count=Math.min(count+step,total);
+    scoreEl.textContent=count;
+    if(count>=total) clearInterval(timer);
+  },30);
+  setTimeout(()=>{ barEl.style.width=(total/90*100)+'%'; },100);
+  tierEl.textContent=tier.label;
+  tierEl.className='score-tier '+tier.cls;
+
+  // Dimension results with per-option advice
+  const dimResultsEl=document.getElementById('dim-results');
+  dimResultsEl.innerHTML='';
+  dimensions.forEach((dim,di)=>{
+    const s=scores[di];
+    const cls=getScoreClass(s,15);
+    const pct=(s/15*100).toFixed(0);
+    const card=document.createElement('div');
+    card.className='dim-result-card';
+
+    // Build per-question advice rows
+    let qRows='';
+    questions[di].forEach((q,qi)=>{
+      const sel=document.querySelector(`input[name="q${dim.id}_${qi}"]:checked`);
+      if(sel){
+        const optIdx=parseInt(sel.value)-1;
+        const key=String.fromCharCode(65+optIdx);
+        const choiceText=q.opts[optIdx];
+        const advText=advice[di][qi][optIdx];
+        qRows+=`<div class="dr-q-row">
+<div class="dr-q-label">${dim.id}-${qi+1}  ${q.q}</div>
+<div class="dr-q-choice">选择 ${key}：${choiceText}</div>
+<div class="dr-q-advice">💡 ${advText}</div>
+</div>`;
+      } else {
+        qRows+=`<div class="dr-q-row">
+<div class="dr-q-label">${dim.id}-${qi+1}  ${q.q}</div>
+<div class="dr-q-advice" style="color:var(--text-dim)">（本题未作答）</div>
+</div>`;
+      }
+    });
+
+    card.innerHTML=`<div class="dr-header">
+<div class="dr-score score-dim-${cls}">${s}</div>
+<div class="dr-name">${dim.id}. ${dim.name} <span style="font-weight:400;font-size:12px;color:var(--text-dim)">${dim.en}</span></div>
+</div>
+<div class="dr-bar-wrap"><div class="dr-bar-fill bar-${cls}" id="drbar-${di}" style="width:0%"></div></div>
+<div class="dr-questions">${qRows}</div>`;
+    dimResultsEl.appendChild(card);
+    setTimeout(()=>{ document.getElementById('drbar-'+di).style.width=pct+'%'; },200+di*80);
+  });
+
+  document.getElementById('iq-summary').innerHTML=`
+<div class="iq-row"><div class="iq-lbl">FB / Website</div><div class="iq-val">${iq1}</div></div>
+<div class="iq-row"><div class="iq-lbl">公司现状</div><div class="iq-val">${iq2}</div></div>
+<div class="iq-row"><div class="iq-lbl">业绩目标</div><div class="iq-val">${iq3}</div></div>
+<div class="iq-row"><div class="iq-lbl">广告痛点</div><div class="iq-val">${iq4}</div></div>
+<div class="iq-row"><div class="iq-lbl">广告期望</div><div class="iq-val">${iq5}</div></div>`;
+
+  setTimeout(()=>drawRadar(scores),300);
+}
+
+function drawRadar(scores){
+  const canvas=document.getElementById('radar-chart');
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const cx=W/2,cy=H/2+10;
+  const R=Math.min(W,H)*0.35;
+  const N=6;
+  const labels=['品牌定位','市场差异化','产品体验','营销策略','社媒执行','成交转换'];
+  const max=15;
+  ctx.clearRect(0,0,W,H);
+  function getPoint(idx,r){
+    const angle=(Math.PI*2/N)*idx-Math.PI/2;
+    return {x:cx+r*Math.cos(angle),y:cy+r*Math.sin(angle)};
+  }
+  [0.2,0.4,0.6,0.8,1.0].forEach(t=>{
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      const p=getPoint(i,R*t);
+      i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=t===1.0?'rgba(37,99,235,0.3)':'rgba(255,255,255,0.06)';
+    ctx.lineWidth=t===1.0?1.5:1;
+    ctx.stroke();
+  });
+  for(let i=0;i<N;i++){
+    const p=getPoint(i,R);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(p.x,p.y);
+    ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.stroke();
+  }
+  ctx.beginPath();
+  scores.forEach((s,i)=>{
+    const r=(s/max)*R;const p=getPoint(i,r);
+    i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y);
+  });
+  ctx.closePath();
+  ctx.fillStyle='rgba(37,99,235,0.2)';ctx.fill();
+  ctx.strokeStyle='#3b82f6';ctx.lineWidth=2;ctx.stroke();
+  scores.forEach((s,i)=>{
+    const r=(s/max)*R;const p=getPoint(i,r);
+    ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);
+    ctx.fillStyle='#60a5fa';ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+  });
+  ctx.fillStyle='rgba(232,237,245,0.85)';
+  ctx.font='12px Noto Sans SC';ctx.textAlign='center';
+  labels.forEach((lbl,i)=>{
+    const p=getPoint(i,R+28);ctx.fillText(lbl,p.x,p.y+4);
+  });
+}
+
+buildForm();
+
+// ====== RETAKE ======
+function retakeTest(){
+  if(!confirm('确定要重新填写吗？当前报告数据会清空。')) return;
+  location.reload();
+}
+
+// ====== PDF EXPORT via html2canvas + jsPDF ======
+async function exportPDF(){
+  const btn = document.getElementById('btn-pdf-export');
+  const btnText = document.getElementById('pdf-btn-text');
+  btn.classList.add('loading');
+  btnText.textContent = '生成中，请稍候…';
+
+  // Load libraries dynamically
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+  await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+
+  // Show watermark temporarily
+  const wm = document.getElementById('pdf-watermark');
+  wm.style.display = 'block';
+
+  // Hide CTA buttons during capture
+  const ctaSection = document.querySelector('.cta-section');
+  const footer = document.querySelector('#report-page .footer');
+  ctaSection.style.display = 'none';
+
+  try {
+    const reportEl = document.getElementById('report-page');
+    const canvas = await html2canvas(reportEl, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#080c14',
+      logging: false,
+      windowWidth: 760,
+      scrollY: 0
+    });
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.92);
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const imgW = pageW;
+    const imgH = (canvas.height * imgW) / canvas.width;
+
+    // Multi-page if content is tall
+    let yOffset = 0;
+    while(yOffset < imgH) {
+      if(yOffset > 0) pdf.addPage();
+      pdf.addImage(imgData, 'JPEG', 0, -yOffset, imgW, imgH);
+      yOffset += pageH;
+    }
+
+    // Get company name for filename
+    const company = document.querySelector('#info-summary .info-summary-item:first-child .val')?.textContent || '品牌诊断';
+    pdf.save(`Deep-Build-品牌诊断报告-${company}.pdf`);
+  } catch(e) {
+    alert('PDF 生成失败，请重试。\n' + e.message);
+  } finally {
+    wm.style.display = 'none';
+    ctaSection.style.display = 'flex';
+    btn.classList.remove('loading');
+    btnText.textContent = '导出专业 PDF 报告';
+  }
+}
+
+function loadScript(src){
+  return new Promise((resolve, reject) => {
+    if(document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+</script>
+
+<!-- PDF watermark (shown only during export) -->
+<div id="pdf-watermark" class="pdf-watermark" style="display:none">
+  DEEP BUILD MARKETING · 品牌商业潜力诊断系统 · deepbuildmarketing.com
+</div>
+
+</body>
+</html>
