@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deepbuild.com.my/sitemap.xml
