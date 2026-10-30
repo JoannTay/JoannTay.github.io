@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>懒人包作品 | Deep Build Marketing</title>
+<meta name="description" content="Deep Build Marketing 为 Instagram 与小红书制作的懒人包图文作品。">
+<link rel="canonical" href="https://deepbuild.com.my/work-carousels.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/work.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="images/logo-blue.png" alt="Deep Build"></a>
+  <a href="index.html#work" class="nav-back">← 返回主页</a>
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><span data-l="zh">中</span><span data-l="en">EN</span></button>
+    <a href="https://api.whatsapp.com/send/?phone=601139990357" class="nav-cta" target="_blank">免费咨询</a>
+  </div>
+</nav>
+
+<section class="work-hero">
+  <div class="section-label">Carousels</div>
+  <h1>懒人包作品</h1>
+  <p>把复杂信息整理成一组好读、好分享的图文，适合 Instagram 与小红书。点击左右翻看。</p>
+  <div class="work-tabs">
+    <a href="work-videos.html">视频</a>
+    <a href="work-ads.html">单图广告</a>
+    <a href="work-carousels.html" class="active">懒人包</a>
+  </div>
+</section>
+
+<section class="work-body">
+  <div class="work-inner">
+    <div class="work-grid" id="work-grid"></div>
+  </div>
+</section>
+
+<section class="work-cta">
+  <h2>想要同样效果的内容？</h2>
+  <p>告诉我们你的品牌和目标，我们帮你规划最适合的内容。</p>
+  <a href="https://api.whatsapp.com/send/?phone=601139990357" class="btn-gold" target="_blank">WhatsApp 联系我们 →</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <a href="index.html"><img src="images/logo-blue.png" alt="Deep Build"></a>
+    <a href="https://www.instagram.com/deepbuild_official" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<div class="lb" id="lb" onclick="closeLb()">
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <button class="lb-close" onclick="closeLb()" aria-label="Close">✕</button>
+    <div class="lb-stage" id="lb-stage"></div>
+    <button class="lb-nav lb-prev" id="lb-prev" onclick="step(-1)" aria-label="Previous">‹</button>
+    <button class="lb-nav lb-next" id="lb-next" onclick="step(1)" aria-label="Next">›</button>
+    <div class="lb-dots" id="lb-dots"></div>
+    <div class="lb-caption" id="lb-caption"></div>
+  </div>
+</div>
+
+<script>
+// ===== 懒人包列表 =====
+// 新增作品：把一组图片放进 images/work/carousels/ 文件夹（按顺序命名 01.jpg、02.jpg…），然后填一行
+//   { imgs: ['images/work/carousels/主题/01.jpg', 'images/work/carousels/主题/02.jpg'], client: '客户名', title: '中文标题', titleEn: 'English title' },
+// 第一张会作为封面；下面没有 imgs 的几行是占位卡，放入真实作品后删掉即可
+window.WORK = {
+  type: 'carousels',
+  items: [
+    { client: 'Deep Build', title: '懒人包 01', titleEn: 'Carousel 01' },
+    { client: 'Deep Build', title: '懒人包 02', titleEn: 'Carousel 02' },
+    { client: 'Deep Build', title: '懒人包 03', titleEn: 'Carousel 03' },
+    { client: 'Deep Build', title: '懒人包 04', titleEn: 'Carousel 04' },
+    { client: 'Deep Build', title: '懒人包 05', titleEn: 'Carousel 05' },
+    { client: 'Deep Build', title: '懒人包 06', titleEn: 'Carousel 06' }
+  ]
+};
+</script>
+<script src="assets/work.js"></script>
+</body>
+</html>

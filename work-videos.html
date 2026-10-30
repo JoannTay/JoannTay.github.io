@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>视频作品 | Deep Build Marketing</title>
+<meta name="description" content="Deep Build Marketing 为新山本地品牌拍摄与剪辑的短视频作品，适合 TikTok、Reels 与小红书。">
+<link rel="canonical" href="https://deepbuild.com.my/work-videos.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/work.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo"><img src="images/logo-blue.png" alt="Deep Build"></a>
+  <a href="index.html#work" class="nav-back">← 返回主页</a>
+  <div class="nav-right">
+    <button class="lang-toggle" onclick="toggleLang()" aria-label="Switch language"><span data-l="zh">中</span><span data-l="en">EN</span></button>
+    <a href="https://api.whatsapp.com/send/?phone=601139990357" class="nav-cta" target="_blank">免费咨询</a>
+  </div>
+</nav>
+
+<section class="work-hero">
+  <div class="section-label">Videos</div>
+  <h1>我们做过的视频内容</h1>
+  <p>为本地品牌拍摄与剪辑的短视频，适合 TikTok、Reels 与小红书。点击即可播放。</p>
+  <div class="work-tabs">
+    <a href="work-videos.html" class="active">视频</a>
+    <a href="work-ads.html">单图广告</a>
+    <a href="work-carousels.html">懒人包</a>
+  </div>
+</section>
+
+<section class="work-body">
+  <div class="work-inner">
+    <div class="work-grid" id="work-grid"></div>
+  </div>
+</section>
+
+<section class="work-cta">
+  <h2>想要同样效果的内容？</h2>
+  <p>告诉我们你的品牌和目标，我们帮你规划最适合的内容。</p>
+  <a href="https://api.whatsapp.com/send/?phone=601139990357" class="btn-gold" target="_blank">WhatsApp 联系我们 →</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <a href="index.html"><img src="images/logo-blue.png" alt="Deep Build"></a>
+    <a href="https://www.instagram.com/deepbuild_official" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<div class="lb" id="lb" onclick="closeLb()">
+  <div class="lb-inner" onclick="event.stopPropagation()">
+    <button class="lb-close" onclick="closeLb()" aria-label="Close">✕</button>
+    <div class="lb-stage" id="lb-stage"></div>
+    <button class="lb-nav lb-prev" id="lb-prev" onclick="step(-1)" aria-label="Previous">‹</button>
+    <button class="lb-nav lb-next" id="lb-next" onclick="step(1)" aria-label="Next">›</button>
+    <div class="lb-dots" id="lb-dots"></div>
+    <div class="lb-caption" id="lb-caption"></div>
+  </div>
+</div>
+
+<script>
+// ===== 视频列表 =====
+// 新增视频：复制一行，youtube 填 YouTube 链接里 v= 或 shorts/ 后面那串 ID
+window.WORK = {
+  type: 'videos',
+  items: [
+    { youtube: 'lMjaH3Vzwas', client: 'Step 1 Impian Emas', title: '女教练 × Deep Build',   titleEn: 'Female Coach × Deep Build' },
+    { youtube: '4qtj8mCXF2c', client: 'Deep Build',         title: '学员案例 × Deep Build', titleEn: 'Student Story × Deep Build' },
+    { youtube: 'NHzOV8jsUps', client: 'Step 1 Austin',      title: 'New Jazz × Deep Build', titleEn: 'New Jazz × Deep Build' },
+    { youtube: 'GEqRenO_gPc', client: 'Deep Build',         title: '中医整骨 × Deep Build', titleEn: 'TCM Bone-setting × Deep Build' },
+    { youtube: '4uor63PEWe0', client: 'Deep Build',         title: '礼盒开箱 × Deep Build', titleEn: 'Gift Box Unboxing × Deep Build' },
+    { youtube: 'ps1mPvTa1wY', client: 'Uncle Sun',          title: 'My Kasih × Deep Build', titleEn: 'My Kasih × Deep Build' }
+  ]
+};
+</script>
+<script src="assets/work.js"></script>
+</body>
+</html>
