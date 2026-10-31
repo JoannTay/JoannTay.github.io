@@ -64,16 +64,22 @@
 
 <script>
 // ===== 视频列表 =====
-// 新增视频：复制一行，youtube 填 YouTube 链接里 v= 或 shorts/ 后面那串 ID
+// 新增视频：复制一行，youtube 填 YouTube 链接里 v= / shorts/ / video/ 后面那串 ID
+// 直版视频排成一排 3 个；横版视频加 wide: true，会单独占满一整排（放在最后）
+// 排序原则：相邻两个不放同一行业，最有代表性的放最前面
 window.WORK = {
   type: 'videos',
   items: [
-    { youtube: 'lMjaH3Vzwas', client: 'Step 1 Impian Emas', title: '女教练 × Deep Build',   titleEn: 'Female Coach × Deep Build' },
-    { youtube: '4qtj8mCXF2c', client: 'Deep Build',         title: '学员案例 × Deep Build', titleEn: 'Student Story × Deep Build' },
-    { youtube: 'NHzOV8jsUps', client: 'Step 1 Austin',      title: 'New Jazz × Deep Build', titleEn: 'New Jazz × Deep Build' },
-    { youtube: 'GEqRenO_gPc', client: 'Deep Build',         title: '中医整骨 × Deep Build', titleEn: 'TCM Bone-setting × Deep Build' },
-    { youtube: '4uor63PEWe0', client: 'Deep Build',         title: '礼盒开箱 × Deep Build', titleEn: 'Gift Box Unboxing × Deep Build' },
-    { youtube: 'ps1mPvTa1wY', client: 'Uncle Sun',          title: 'My Kasih × Deep Build', titleEn: 'My Kasih × Deep Build' }
+    { youtube: 'bv_3tgTBc0A', client: 'Step 1 Impian Emas',  tag: '运动 · 品牌介绍', title: '宝藏女教练',      titleEn: 'Meet Our Star Coach' },
+    { youtube: 'ALwvkMLJmKQ', client: '春秋堂中医馆',        tag: '中医 · 营销广告', title: '整骨过程 + Q&A',  titleEn: 'Bone-Setting Process + Q&A' },
+    { youtube: 'PRK0Ee0Ol3g', client: 'Uncle Sun',           tag: '产品 · 营销广告', title: 'Bundle Package', titleEn: 'Bundle Package' },
+    { youtube: 'FR5o6DvnQvU', client: 'Hong Wei Electrical', tag: '电工 · 营销广告', title: 'Before / After 广告', titleEn: 'Before / After Ad' },
+    { youtube: '7W9Ll-6S4DI', client: 'AEG',                 tag: '教育 · 品牌介绍', title: 'AEG Vlog',       titleEn: 'AEG Vlog' },
+    { youtube: 'P3kmmLAsiTo', client: 'Furry Paws & Tails',  tag: '宠物 · 品牌介绍', title: '门店介绍',        titleEn: 'Store Tour' },
+    { youtube: 'v3RQtXxhhts', client: 'Step 1 Studio',       tag: '运动 · 营销广告', title: 'HIIT 课程',       titleEn: 'HIIT Classes' },
+    { youtube: 'vBhyFP-QeuA', client: '春秋堂中医馆',        tag: '中医 · 营销广告', title: '徒手整脸',        titleEn: 'Hands-On Face Sculpting' },
+    { youtube: 'xCX2qbOcuZU', client: 'Uncle Sun',           tag: '产品 · 科普知识', title: 'MY KASIH 科普',   titleEn: 'MY KASIH Explainer' },
+    { youtube: '5hKpR5sl0X4', client: 'AEG',                 tag: '教育 · 品牌介绍', title: '学员招募',        titleEn: 'Student Recruitment', wide: true }
   ]
 };
 </script>
