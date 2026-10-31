@@ -68,6 +68,20 @@ html[lang="zh"] .lang-toggle [data-l="zh"],html[lang="en"] .lang-toggle [data-l=
 .work-info{padding:14px 16px 18px}
 .work-client{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px}
 .work-title{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy)}
+.work-tag{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:var(--navy);background:rgba(250,204,21,0.25);border:1px solid rgba(250,204,21,0.6);border-radius:100px;padding:2px 10px}
+
+/* Landscape video: spans the whole row, image left and text right on desktop */
+.work-card.is-wide{grid-column:1/-1;display:grid;grid-template-columns:2fr 1fr;align-items:center}
+.work-grid[data-type="videos"] .work-card.is-wide .work-thumb{aspect-ratio:16/9}
+.work-card.is-wide .work-info{padding:28px}
+.work-card.is-wide .work-title{font-size:22px;margin-top:4px}
+.lb.is-wide[data-type] .lb-inner{max-width:960px}
+.lb.is-wide[data-type] .lb-stage{aspect-ratio:16/9}
+@media(max-width:640px){
+  .work-card.is-wide{grid-template-columns:1fr}
+  .work-card.is-wide .work-info{padding:12px 14px 16px}
+  .work-card.is-wide .work-title{font-size:16px}
+}
 
 /* ===== LIGHTBOX ===== */
 .lb{position:fixed;inset:0;background:rgba(10,18,40,0.9);z-index:999;display:none;align-items:center;justify-content:center;padding:24px}

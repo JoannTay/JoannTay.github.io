@@ -16,7 +16,11 @@ const EN = {
   "想要同样效果的内容？": "Want content like this?",
   "告诉我们你的品牌和目标，我们帮你规划最适合的内容。": "Tell us about your brand and goals — we'll plan the right content for you.",
   "WhatsApp 联系我们 →": "WhatsApp Us →",
-  "小红书": "Xiaohongshu"
+  "小红书": "Xiaohongshu",
+  "春秋堂中医馆": "Chun Qiu Tang TCM",
+  "运动 · 品牌介绍": "Fitness · Brand Story", "运动 · 营销广告": "Fitness · Ad",
+  "中医 · 营销广告": "TCM · Ad", "产品 · 营销广告": "Product · Ad", "产品 · 科普知识": "Product · Explainer",
+  "电工 · 营销广告": "Electrical · Ad", "教育 · 品牌介绍": "Education · Brand Story", "宠物 · 品牌介绍": "Pet · Brand Story"
 };
 const zhText = new WeakMap();
 let lang = 'zh';
@@ -57,12 +61,19 @@ function cardHTML(it, i, type) {
     return `<div class="work-card is-empty"><div class="work-thumb"><div class="work-ph">${type === 'carousels' ? ICONS.stack : ICONS.image}</div><span class="coming-soon">Coming Soon</span></div>
       <div class="work-info"><div class="work-client">${esc(it.client || 'Deep Build')}</div><div class="work-title">${esc(titleOf(it) || '—')}</div></div></div>`;
   }
-  const cover = type === 'videos' ? `https://img.youtube.com/vi/${esc(it.youtube)}/hqdefault.jpg` : type === 'ads' ? it.img : it.imgs[0];
+  // wide (landscape) videos use the larger thumbnail so a full-width card stays sharp
+  const cover = type === 'videos' ? `https://img.youtube.com/vi/${esc(it.youtube)}/${it.wide ? 'maxresdefault' : 'hqdefault'}.jpg`
+    : type === 'ads' ? it.img : it.imgs[0];
   const overlay = type === 'videos' ? `<div class="work-play">${ICONS.play}</div>`
     : type === 'carousels' ? `<div class="work-badge">${ICONS.stack.replace('<svg', '<svg width="11" height="11"')} ${it.imgs.length}</div>` : '';
-  return `<button class="work-card" type="button" onclick="openItem(${i})">
-      <div class="work-thumb"><img src="${esc(cover)}" alt="${esc(titleOf(it))}" loading="lazy">${overlay}</div>
-      <div class="work-info"><div class="work-client">${esc(it.client || 'Deep Build')}</div><div class="work-title">${esc(titleOf(it))}</div></div>
+  const fallback = it.wide ? ` onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${esc(it.youtube)}/hqdefault.jpg'"` : '';
+  return `<button class="work-card${it.wide ? ' is-wide' : ''}" type="button" onclick="openItem(${i})">
+      <div class="work-thumb"><img src="${esc(cover)}" alt="${esc(titleOf(it))}" loading="lazy"${fallback}>${overlay}</div>
+      <div class="work-info">
+        <div class="work-client">${esc(t(it.client || 'Deep Build'))}</div>
+        <div class="work-title">${esc(titleOf(it))}</div>
+        ${it.tag ? `<div class="work-tag">${esc(t(it.tag))}</div>` : ''}
+      </div>
     </button>`;
 }
 function render() {
@@ -80,6 +91,7 @@ function openItem(i) {
   cur = items[i]; slide = 0;
   const lb = document.getElementById('lb');
   lb.dataset.type = type;
+  lb.classList.toggle('is-wide', !!cur.wide);
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
   drawSlide();
@@ -97,7 +109,7 @@ function drawSlide() {
     dots.innerHTML = many ? imgs.map((_, k) => `<i class="${k === slide ? 'on' : ''}"></i>`).join('') : '';
   }
   if (type === 'videos') { prev.style.display = next.style.display = 'none'; dots.innerHTML = ''; }
-  document.getElementById('lb-caption').textContent = [cur.client, titleOf(cur)].filter(Boolean).join(' · ');
+  document.getElementById('lb-caption').textContent = [t(cur.client || ''), titleOf(cur)].filter(Boolean).join(' · ');
 }
 function step(d) {
   if (!cur || !cur.imgs) return;
