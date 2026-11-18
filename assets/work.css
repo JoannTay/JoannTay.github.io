@@ -57,6 +57,9 @@ html[lang="zh"] .lang-toggle [data-l="zh"],html[lang="en"] .lang-toggle [data-l=
 .work-grid[data-type="ads"] .work-thumb,.work-grid[data-type="carousels"] .work-thumb{aspect-ratio:4/5}
 .work-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s}
 .work-card:hover .work-thumb img{transform:scale(1.04)}
+.work-grid[data-type="ads"] .work-thumb img{position:relative;object-fit:contain}
+.work-grid[data-type="ads"] .work-thumb .work-thumb-bg{position:absolute;inset:0;object-fit:cover;filter:blur(22px) saturate(1.2);transform:scale(1.25);opacity:0.6}
+.work-card:hover .work-thumb .work-thumb-bg{transform:scale(1.25)}
 .work-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(15,27,61,0.18)}
 .work-play svg{width:52px;height:52px;background:var(--gold);border-radius:50%;padding:15px;color:var(--navy);box-shadow:0 4px 20px rgba(250,204,21,0.5);transition:transform 0.2s}
 .work-card:hover .work-play svg{transform:scale(1.1)}

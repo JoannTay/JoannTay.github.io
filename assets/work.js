@@ -20,7 +20,9 @@ const EN = {
   "春秋堂中医馆": "Chun Qiu Tang TCM",
   "运动 · 品牌介绍": "Fitness · Brand Story", "运动 · 营销广告": "Fitness · Ad",
   "中医 · 营销广告": "TCM · Ad", "产品 · 营销广告": "Product · Ad", "产品 · 科普知识": "Product · Explainer",
-  "电工 · 营销广告": "Electrical · Ad", "教育 · 品牌介绍": "Education · Brand Story", "宠物 · 品牌介绍": "Pet · Brand Story"
+  "电工 · 营销广告": "Electrical · Ad",
+  "中医 · 服务推广": "TCM · Service Ad", "中医 · 限时优惠": "TCM · Promo", "运动 · 限时优惠": "Fitness · Promo",
+  "运动 · 私教配套": "Fitness · PT Package", "产品 · 配套促销": "Product · Bundle Promo", "电工 · 服务推广": "Electrical · Service Ad", "教育 · 品牌介绍": "Education · Brand Story", "宠物 · 品牌介绍": "Pet · Brand Story"
 };
 const zhText = new WeakMap();
 let lang = 'zh';
@@ -66,9 +68,11 @@ function cardHTML(it, i, type) {
     : type === 'ads' ? it.img : it.imgs[0];
   const overlay = type === 'videos' ? `<div class="work-play">${ICONS.play}</div>`
     : type === 'carousels' ? `<div class="work-badge">${ICONS.stack.replace('<svg', '<svg width="11" height="11"')} ${it.imgs.length}</div>` : '';
+  // ads come in mixed ratios: show the whole image over a blurred copy instead of cropping it
+  const backdrop = type === 'ads' ? `<img class="work-thumb-bg" src="${esc(cover)}" alt="" aria-hidden="true" loading="lazy">` : '';
   const fallback = it.wide ? ` onerror="this.onerror=null;this.src='https://img.youtube.com/vi/${esc(it.youtube)}/hqdefault.jpg'"` : '';
   return `<button class="work-card${it.wide ? ' is-wide' : ''}" type="button" onclick="openItem(${i})">
-      <div class="work-thumb"><img src="${esc(cover)}" alt="${esc(titleOf(it))}" loading="lazy"${fallback}>${overlay}</div>
+      <div class="work-thumb">${backdrop}<img src="${esc(cover)}" alt="${esc(titleOf(it))}" loading="lazy"${fallback}>${overlay}</div>
       <div class="work-info">
         <div class="work-client">${esc(t(it.client || 'Deep Build'))}</div>
         <div class="work-title">${esc(titleOf(it))}</div>
