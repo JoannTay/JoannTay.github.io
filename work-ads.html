@@ -12,7 +12,7 @@
 <link rel="canonical" href="https://deepbuild.com.my/work-ads.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Mrs+Saint+Delafield&family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/work.css?v=4">
+<link rel="stylesheet" href="assets/work.css?v=6">
 </head>
 <body>
 
@@ -68,21 +68,21 @@
 
 <script>
 // ===== 单图广告列表 =====
-// 新增作品：把图片放进 images/work/ads/ 文件夹，然后在下面填一行
-//   { img: 'images/work/ads/文件名.jpg', client: '客户名', title: '中文标题', titleEn: 'English title' },
-// 下面没有 img 的几行是占位卡，放入真实作品后删掉即可
+// 新增作品：把图片放进 images/work/ads/ 文件夹，然后在下面复制一行改掉内容
+// 任何比例都可以（4:5、1:1、3:4），卡片会完整显示整张图，不会被裁掉
+// 排序原则：相邻两个不放同一个客户
 window.WORK = {
   type: 'ads',
   items: [
-    { client: 'Deep Build', title: '单图广告 01', titleEn: 'Single-image ad 01' },
-    { client: 'Deep Build', title: '单图广告 02', titleEn: 'Single-image ad 02' },
-    { client: 'Deep Build', title: '单图广告 03', titleEn: 'Single-image ad 03' },
-    { client: 'Deep Build', title: '单图广告 04', titleEn: 'Single-image ad 04' },
-    { client: 'Deep Build', title: '单图广告 05', titleEn: 'Single-image ad 05' },
-    { client: 'Deep Build', title: '单图广告 06', titleEn: 'Single-image ad 06' }
+    { img: 'images/work/ads/chunqiutang-zhenggu.jpg',         client: '春秋堂中医馆',        tag: '中医 · 服务推广', title: '专业正骨 · 手法到位',     titleEn: 'Professional Bone-Setting' },
+    { img: 'images/work/ads/step1-studio-small-steps.jpg',    client: 'Step 1 Studio',       tag: '运动 · 限时优惠', title: 'Small Steps. Big Changes.', titleEn: 'Small Steps. Big Changes.' },
+    { img: 'images/work/ads/unclesun-bundle.jpg',             client: 'Uncle Sun',           tag: '产品 · 配套促销', title: '一套吃遍大马经典风味',   titleEn: 'Malaysian Classics Bundle' },
+    { img: 'images/work/ads/hongwei-wiring.jpg',              client: 'Hong Wei Electrical', tag: '电工 · 服务推广', title: '电路规划 & 安装服务',     titleEn: 'Wiring Planning & Installation' },
+    { img: 'images/work/ads/chunqiutang-rm199.jpg',           client: '春秋堂中医馆',        tag: '中医 · 限时优惠', title: '腰酸 · 背痛 · 颈紧',      titleEn: 'Back & Neck Relief Offer' },
+    { img: 'images/work/ads/step1-impian-train-together.jpg', client: 'Step 1 Impian Emas',  tag: '运动 · 私教配套', title: 'Train Together',            titleEn: 'Train Together' }
   ]
 };
 </script>
-<script src="assets/work.js?v=4"></script>
+<script src="assets/work.js?v=6"></script>
 </body>
 </html>

@@ -250,6 +250,16 @@ html[lang="en"] .service-card h3{margin-bottom:10px}
 .work-cover-icon{position:absolute;right:14px;bottom:14px;width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(250,204,21,0.45);transition:transform 0.25s}
 .work-cover-icon svg{width:18px;height:18px}
 .work-tile:hover .work-cover-icon{transform:scale(1.12)}
+/* three real ads fanned out like cards in a hand */
+.ad-fan{position:absolute;inset:0}
+.ad-fan img{position:absolute;top:50%;left:50%;width:38%;aspect-ratio:4/5;object-fit:cover;object-position:top;border-radius:8px;border:3px solid #fff;box-shadow:0 14px 30px rgba(10,20,60,0.35);transition:transform 0.4s}
+.ad-fan img:nth-child(1){transform:translate(-112%,-46%) rotate(-9deg)}
+.ad-fan img:nth-child(2){transform:translate(12%,-46%) rotate(9deg)}
+.ad-fan img:nth-child(3){transform:translate(-50%,-52%);z-index:1}
+.work-tile:hover .ad-fan img:nth-child(1){transform:translate(-122%,-48%) rotate(-12deg)}
+.work-tile:hover .ad-fan img:nth-child(2){transform:translate(22%,-48%) rotate(12deg)}
+.work-tile:hover .ad-fan img:nth-child(3){transform:translate(-50%,-56%) scale(1.04)}
+.work-cover-ads .work-cover-icon{z-index:2}
 /* simple drawn mock-ups standing in until real covers exist */
 .mock-ad{width:46%;aspect-ratio:4/5;background:#fff;border-radius:8px;padding:10%;display:flex;flex-direction:column;gap:8%;box-shadow:0 14px 30px rgba(10,20,60,0.3);transform:rotate(-4deg);transition:transform 0.4s}
 .work-tile:hover .mock-ad{transform:rotate(0) scale(1.04)}
@@ -830,8 +840,11 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:48px
       </a>
       <a href="work-ads.html" class="work-tile">
         <div class="work-cover work-cover-ads">
-          <div class="mock-ad"><i></i><b></b><b></b><em></em></div>
-          <span class="coming-soon">Coming Soon</span>
+          <div class="ad-fan">
+            <img src="images/work/ads/chunqiutang-zhenggu.jpg" alt="" loading="lazy">
+            <img src="images/work/ads/unclesun-bundle.jpg" alt="" loading="lazy">
+            <img src="images/work/ads/step1-studio-small-steps.jpg" alt="" loading="lazy">
+          </div>
           <span class="work-cover-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span>
         </div>
         <div class="work-tile-info">
