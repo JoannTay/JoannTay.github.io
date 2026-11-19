@@ -73,7 +73,7 @@
 // 任何比例都可以（直版、方图、横版混在同一组也行），不会被裁掉
 // Facebook 那种「上面一张主图、下面几张小方图」的贴文：另外做一张拼好的 主题-cover.jpg，填 cover，
 // 张数写成 [主图, 小图1, 小图2…] 的编号顺序，点开会先看到拼图，再一张一张看
-// 排序原则：相邻两个不放同一个客户
+// 排序原则：相邻两个不放同一个客户；深色、浅色交错排，第二排放三组暖色的「主图 + 小图」
 const pics = (slug, n) => (Array.isArray(n) ? n : Array.from({ length: n }, (_, k) => k + 1))
   .map(k => `images/work/carousels/${slug}-${String(k).padStart(2, '0')}.jpg`);
 const cover = slug => `images/work/carousels/${slug}-cover.jpg`;
@@ -81,15 +81,14 @@ window.WORK = {
   type: 'carousels',
   items: [
     { imgs: pics('step1-bodyfat', 4), client: 'Step 1 Impian Emas', tag: '运动 · 健身科普', title: '同样 50kg，体脂不同差多少？', titleEn: 'Same Weight, Different Body Fat' },
-    { imgs: pics('tcm-zhenggu', [3, 1, 2, 4]), cover: cover('tcm-zhenggu'), client: '春秋堂中医馆', tag: '中医 · 服务介绍', title: '为什么选择中医徒手整骨？', titleEn: 'Why Choose TCM Bone-Setting?' },
     { imgs: pics('aeg-stem', 5), client: 'AEG', tag: '教育 · 课程介绍', title: 'STEM 属于学霸？', titleEn: 'Is STEM Only for Top Students?' },
-    { imgs: pics('us-cortisol', 3), client: 'Uncle Sun', tag: '产品 · 科普知识', title: '中式食疗小课堂：皮质醇', titleEn: 'Food Therapy 101: Cortisol' },
-    { imgs: pics('furrypaws-store', 3), client: 'Furry Paws & Tails', tag: '宠物 · 门店介绍', title: '毛孩进去会失控！', titleEn: 'Your Pet Will Go Wild Here!' },
+    { imgs: pics('tcm-xhs', 2), client: '春秋堂中医馆', tag: '中医 · 小红书风格', title: '假如骨头也玩小红书', titleEn: 'If Your Bones Used Xiaohongshu' },
     { imgs: pics('hw-wiring', 4), cover: cover('hw-wiring'), client: 'Hong Wei Electrical', tag: '电工 · 服务介绍', title: '拉电服务 · 安装流程', titleEn: 'Wiring Service & Process' },
-    { imgs: pics('step1-gym-tour', 4), client: 'Step 1 Impian Emas', tag: '运动 · 门店介绍', title: '在新山挖到宝了！', titleEn: 'A Hidden Gem Gym in JB' },
-    { imgs: pics('hw-fullhouse', 3), cover: cover('hw-fullhouse'), client: 'Hong Wei Electrical', tag: '电工 · 案例展示', title: 'Full House Wiring', titleEn: 'Full House Wiring: Before & After' },
+    { imgs: pics('tcm-zhenggu', [3, 1, 2, 4]), cover: cover('tcm-zhenggu'), client: '春秋堂中医馆', tag: '中医 · 服务介绍', title: '为什么选择中医徒手整骨？', titleEn: 'Why Choose TCM Bone-Setting?' },
     { imgs: pics('us-heritage', [4, 1, 2, 3]), cover: cover('us-heritage'), client: 'Uncle Sun', tag: '产品 · 品牌故事', title: '42 年的传承', titleEn: '42 Years of Heritage' },
-    { imgs: pics('tcm-xhs', 2), client: '春秋堂中医馆', tag: '中医 · 小红书风格', title: '假如骨头也玩小红书', titleEn: 'If Your Bones Used Xiaohongshu' }
+    { imgs: pics('us-cortisol', 3), client: 'Uncle Sun', tag: '产品 · 科普知识', title: '中式食疗小课堂：皮质醇', titleEn: 'Food Therapy 101: Cortisol' },
+    { imgs: pics('step1-gym-tour', 4), client: 'Step 1 Impian Emas', tag: '运动 · 门店介绍', title: '在新山挖到宝了！', titleEn: 'A Hidden Gem Gym in JB' },
+    { imgs: pics('furrypaws-store', 3), client: 'Furry Paws & Tails', tag: '宠物 · 门店介绍', title: '毛孩进去会失控！', titleEn: 'Your Pet Will Go Wild Here!' }
   ]
 };
 </script>
