@@ -68,7 +68,7 @@ function cardHTML(it, i, type) {
   }
   // wide (landscape) videos use the larger thumbnail so a full-width card stays sharp
   const cover = type === 'videos' ? `https://img.youtube.com/vi/${esc(it.youtube)}/${it.wide ? 'maxresdefault' : 'hqdefault'}.jpg`
-    : type === 'ads' ? it.img : it.imgs[0];
+    : type === 'ads' ? it.img : (it.cover || it.imgs[0]);
   const overlay = type === 'videos' ? `<div class="work-play">${ICONS.play}</div>`
     : type === 'carousels' ? `<div class="work-badge">${ICONS.stack.replace('<svg', '<svg width="11" height="11"')} ${it.imgs.length}</div>` : '';
   // ads and carousels come in mixed ratios: show the whole image over a blurred copy instead of cropping it
@@ -93,6 +93,8 @@ function render() {
 
 // ===== LIGHTBOX =====
 let cur = null, slide = 0;
+// a carousel with a combined cover (main image + small squares, like a Facebook post) shows that cover first, then each image
+const slidesOf = it => window.WORK.type === 'ads' ? [it.img] : (it.cover ? [it.cover, ...it.imgs] : it.imgs);
 function openItem(i) {
   const { type, items } = window.WORK;
   cur = items[i]; slide = 0;
@@ -109,7 +111,7 @@ function drawSlide() {
   if (type === 'videos') {
     stage.innerHTML = `<iframe src="https://www.youtube.com/embed/${esc(cur.youtube)}?autoplay=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
   } else {
-    const imgs = type === 'ads' ? [cur.img] : cur.imgs;
+    const imgs = slidesOf(cur);
     stage.innerHTML = `<img src="${esc(imgs[slide])}" alt="${esc(titleOf(cur))}">`;
     const many = imgs.length > 1;
     prev.style.display = next.style.display = many ? 'flex' : 'none';
@@ -120,7 +122,8 @@ function drawSlide() {
 }
 function step(d) {
   if (!cur || !cur.imgs) return;
-  slide = (slide + d + cur.imgs.length) % cur.imgs.length;
+  const n = slidesOf(cur).length;
+  slide = (slide + d + n) % n;
   drawSlide();
 }
 function closeLb() {
